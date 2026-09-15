@@ -1,0 +1,42 @@
+{
+    "name": "svenbw/laravel-tabler",
+    "description": "Laravel tabler support",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Sven Rymenants",
+            "email": "sven@byteworks.be"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "illuminate/support": "^12.0|^13.0",
+        "livewire/livewire": "^3.7|^4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.5",
+        "orchestra/testbench": "^10.8",
+        "laravel/pint": "^1.27"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Svenbw\\LaravelTabler\\": "src/"
+        },
+        "files": [
+            "src/Helpers/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Svenbw\\LaravelTabler\\Tests\\": "tests/"
+        }
+    },        
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Svenbw\\LaravelTabler\\TablerServiceProvider"
+            ]
+        }
+    }
+}
