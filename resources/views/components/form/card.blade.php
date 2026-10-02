@@ -18,6 +18,11 @@
 
 @endphp
 <div @class($class)>
+    @isset($stamp)
+        <x-tabler::cards.stamp :attributes="$stamp->attributes">
+            {{ $stamp }}
+        </x-tabler::cards.stamp>
+    @endisset
     @if($submitAction !== null)
         @if(str_starts_with($submitAction, 'wire:'))
             <form {{ $submitAction }} autocomplete="off">
