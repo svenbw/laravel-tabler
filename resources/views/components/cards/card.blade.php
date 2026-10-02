@@ -2,7 +2,7 @@
 <div {{ $attributes->merge(['class' => 'card'.($type === null ? '' : ' bg-'.$type.'-lt')]) }}>
 
     @isset($stamp)
-        <x-tabler::cards.stamp>
+        <x-tabler::cards.stamp :attributes="$stamp->attributes">
             {{$stamp}}
         </x-tabler::cards.stamp>
     @endisset
