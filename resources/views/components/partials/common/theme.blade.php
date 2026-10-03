@@ -9,7 +9,17 @@
     The theme is written to a cookie as well, so the server knows which one the
     next request is rendered in; the system fallback is written too, otherwise
     the first request of a member who never touched the switches carries nothing.
+
+    Until the stylesheet has arrived the browser paints its own canvas, white,
+    and moving to another page flashes it. The dark canvas is given here, in
+    the colour of Tabler's dark body, so there is nothing to see in between.
 --}}
+<style>
+    html[data-bs-theme=dark] {
+        color-scheme: dark;
+        background-color: #111827;
+    }
+</style>
 <script>
     (function () {
         var stored = null;
