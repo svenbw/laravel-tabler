@@ -1,10 +1,12 @@
 @props(['label', 'name', 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null,'precision' => 2,'min' => 0,'max' => 999999999])
 @use('Svenbw\LaravelTabler\Helpers\WireModelEntangler')
+@use('Svenbw\LaravelTabler\Helpers\Form')
 @php
-    $isInvalid = isset($errors) && $errors->has($name);
+    $errorKey = Form::errorKey($name);
+    $isInvalid = isset($errors) && $errors->has($errorKey);
     $prependText = $attributes->get('prepend-text');
     $appendText = $attributes->get('append-text');
-    $cols = is_string($col) ? join(' ', array_map(fn($col) => 'col-'.$col, explode(' ', $col))) : '';
+    $cols = Form::colClass($col);
 
     $locale = App::getLocale();
     $formatter = new \NumberFormatter($locale, \NumberFormatter::DECIMAL);
@@ -63,6 +65,9 @@
                 }
             });
 @endif            
+        },
+        destroy() {
+            this.mask?.destroy();
         }
      }">
     <label @class(['form-label', 'required' => $attributes->get('required')]) for="{{ $name }}">{{ $label }}</label>
@@ -96,6 +101,6 @@
     @endif
 
     @if($isInvalid)
-        <div class="invalid-feedback" style="display: block;">{{ join(',', $errors->get($name)) }}</div>
+        <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey)) }}</div>
     @endif
 </div>

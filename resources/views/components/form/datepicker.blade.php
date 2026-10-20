@@ -1,11 +1,18 @@
-@props(['label', 'name', 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'format' => 'Y-m-d', 'enableTime' => false, 'noCalendar' => false, 'time24hr' => true, 'mode' => 'single'])
+@props(['label', 'name', 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'format' => null, 'enableTime' => false, 'noCalendar' => false, 'time24hr' => true, 'mode' => 'single'])
 @use('Svenbw\LaravelTabler\Helpers\WireModelEntangler')
+@use('Svenbw\LaravelTabler\Helpers\Form')
 @php
-    $isInvalid = isset($errors) && $errors->has($name);
+    $errorKey = Form::errorKey($name);
+    $isInvalid = isset($errors) && $errors->has($errorKey);
     $prependText = $attributes->get('prepend-text');
     $appendText = $attributes->get('append-text');
-    $cols = is_string($col) ? join(' ', array_map(fn($col) => 'col-'.$col, explode(' ', $col))) : '';
+    $cols = Form::colClass($col);
     $componentId = $name . '_' . uniqid();
+
+    $format ??= \Svenbw\LaravelTabler\Tabler::dateFormat();
+    if ($value instanceof \DateTimeInterface) {
+        $value = $value->format($format);
+    }
 
     // Flatpickr options
     $flatpickrOptions = [
@@ -33,7 +40,7 @@
 @endphp
 
 <div @class(['mb-3', $cols])>
-    <label @class(['form-label', 'required' => $attributes->get('required')]) for="{{ $componentId }}">{{ $label }}</label>
+    <label @class(['form-label', 'required' => $attributes->has('required')]) for="{{ $componentId }}">{{ $label }}</label>
     <div 
         wire:ignore
         x-data="{
@@ -54,8 +61,8 @@
             
 @if($entangler->hasModel())
                 $watch('wireValue', (newValue) => {
-                    if (newValue !== picker.input.value) {
-                        picker.setDate(newValue, false);
+                    if (newValue !== this.picker.input.value) {
+                        this.picker.setDate(newValue, false);
                     }
                 });
 @endif
@@ -95,6 +102,6 @@
     </div>
     
     @if($isInvalid)
-    <div class="invalid-feedback d-block">{{ join(', ', $errors->get($name)) }}</div>
+    <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey)) }}</div>
     @endif
 </div>

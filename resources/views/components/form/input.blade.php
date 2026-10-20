@@ -1,13 +1,15 @@
 @props(['label', 'name', 'value', 'placeholder' => null, 'type' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null])
+@use('Svenbw\LaravelTabler\Helpers\Form')
 @php
-	$isInvalid = isset($errors) && $errors->has($name);
+	$errorKey = Form::errorKey($name);
+	$isInvalid = isset($errors) && $errors->has($errorKey);
 	$prependText = $attributes->get('prepend-text');
 	$appendText = $attributes->get('append-text');
 	$type = $attributes->has('password') ? 'password' : $type ?? 'text';
-	$cols = is_string($col) ? join(' ', array_map(fn($col) => 'col-'.$col, explode(' ', $col))) : '';
+	$cols = Form::colClass($col);
 @endphp
 <div @class(['mb-3', $cols])>
-	<label @class(['form-label', 'required' => $attributes->get('required')]) for={{ $name }}>{{ $label }}</label>
+	<label @class(['form-label', 'required' => $attributes->has('required')]) for={{ $name }}>{{ $label }}</label>
 	@if($prependText || $appendText)
 		<div class="input-group input-group-flat">
 		@if($prependText)
@@ -40,6 +42,6 @@
 		</div>
 	@endif
 	@if($isInvalid)
-		<div class="invalid-feedback">{{ join(',', $errors->get($name)) }}</div>
+		<div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey)) }}</div>
 	@endif
 </div>

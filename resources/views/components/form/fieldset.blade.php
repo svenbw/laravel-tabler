@@ -1,6 +1,7 @@
 @props(['legend', 'separator' => null, 'col' => null])
+@use('Svenbw\LaravelTabler\Helpers\Form')
 @php
-    $cols = is_string($col) ? join(' ', array_map(fn($col) => 'col-'.$col, explode(' ', $col))) : '';
+    $cols = Form::colClass($col);
     $separator = $separator !== null;
 @endphp
 <div class="row">
@@ -8,10 +9,10 @@
         <div @class($cols)>
             <hr class="w-card mt-0">
     @endif
-        <fieldet @class(['mb-3', ($col ? 'col-'.$col : 'col') => !$separator])>
+        <fieldset @class(['mb-3', ($cols ?: 'col') => !$separator])>
             <legend class="card-title">{{ $legend }}</legend>
             {{ $slot }}
-        </fieldet>
+        </fieldset>
     @if ($separator)
     </div>
     @endif

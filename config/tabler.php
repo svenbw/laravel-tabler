@@ -106,6 +106,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Date format
+    |--------------------------------------------------------------------------
+    | The default format of <x-tabler::form.datepicker>, in flatpickr tokens,
+    | which match the PHP date() ones for the common cases. A datepicker can
+    | still pass its own `format`. To resolve it per request, e.g. from the
+    | preferences of the user, register a resolver in a service provider:
+    |
+    |     Tabler::dateFormatUsing(fn () => auth()->user()?->date_format ?? 'Y-m-d');
+    |
+    */
+
+    'date_format' => 'Y-m-d',
+
+    /*
+    |--------------------------------------------------------------------------
     | Vite
     |--------------------------------------------------------------------------
     | The entry points the layouts hand to @vite. The package ships no compiled

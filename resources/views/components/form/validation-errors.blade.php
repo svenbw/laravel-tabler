@@ -1,6 +1,6 @@
 @if ($errors->any())
     <div {{ $attributes }}>
-        <div class="font-medium text-red-600">Er ging iets mis</div>
+        <div class="font-medium text-red-600">{{ __('tabler::form.validation_failed') }}</div>
 
         <ul class="list-group list-group-flush mt-3">
             @foreach ($errors->all() as $error)

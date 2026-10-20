@@ -24,15 +24,17 @@ class TablerServiceProvider extends ServiceProvider
         return $this->packagePrefix.'-'.$key;
     }
 
-    public function boot()
+    public function boot(): void
     {
         $this->loadTranslations();
         $this->loadViews();
-        $this->loadConfig();
+        $this->publishConfig();
     }
 
-    public function register()
+    public function register(): void
     {
+        $this->mergeConfigRecursivelyFrom($this->packagePath('config/tabler.php'), $this->packagePrefix);
+
         $this->app->singleton(Tabler::class, fn (Container $app) => new Tabler($app));
         $this->app->singleton('toast', fn (Container $app) => $app->make(Toast::class));
 
@@ -46,15 +48,22 @@ class TablerServiceProvider extends ServiceProvider
         $this->loadViewComponentsAs($this->packagePrefix, [
             'form-card' => FormCard::class,
         ]);
+
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                $this->packagePath('resources/views') => resource_path('views/vendor/'.$this->packagePrefix),
+            ], $this->publishKey('views'));
+        }
     }
 
-    private function loadConfig(): void
+    private function publishConfig(): void
     {
-        $path = $this->packagePath('config/tabler.php');
-        $this->mergeConfigRecursivelyFrom($path, $this->packagePrefix);
+        if (! $this->app->runningInConsole()) {
+            return;
+        }
 
         $this->publishes([
-            $path => config_path($this->packagePrefix.'.php'),
+            $this->packagePath('config/tabler.php') => config_path($this->packagePrefix.'.php'),
         ], $this->publishKey('config'));
     }
 
@@ -93,6 +102,10 @@ class TablerServiceProvider extends ServiceProvider
     {
         $path = $this->packagePath('lang');
         $this->loadTranslationsFrom($path, $this->packagePrefix);
+
+        if (! $this->app->runningInConsole()) {
+            return;
+        }
 
         $this->publishes([
             $path => $this->app->langPath('vendor/'.$this->packagePrefix),

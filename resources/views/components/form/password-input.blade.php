@@ -10,7 +10,7 @@
         @if($value) value="{{ $value }}" @endif
     >
     <span class="input-group-text">
-        <a href="#" x-on:click="show=!show" class="link-secondary" x-bind:title="show?'Show password':'Hide password'">
+        <a href="#" x-on:click.prevent="show=!show" class="link-secondary" x-bind:title="show ? @js(__('tabler::form.show_password')) : @js(__('tabler::form.hide_password'))">
             <template x-if="show">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>

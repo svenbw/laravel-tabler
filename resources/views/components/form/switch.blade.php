@@ -1,7 +1,8 @@
 @props(['label', 'name', 'value' => 1, 'col' => null, 'readonly' => null, 'disabled' => null])
+@use('Svenbw\LaravelTabler\Helpers\Form')
 @php
     $checked = (($attributes->get('checked') === 1) || ($attributes->get('checked') === true)) ? 'checked' : '';
-    $cols = is_string($col) ? join(' ', array_map(fn($col) => 'col-'.$col, explode(' ', $col))) : '';
+    $cols = Form::colClass($col);
 @endphp
 <div @class(['mb-3', $cols])>
     <label class="form-check form-switch" for="{{ $name }}">

@@ -36,14 +36,14 @@ class AppToast {
         if (options.title) {
             const title = document.createElement('strong');
             title.className = 'toast-title';
-            title.innerHTML = options.title;
+            title.textContent = options.title;
             toast.appendChild(title);
         }
 
         if (options.message) {
             const message = document.createElement('p');
             message.className = 'toast-message';
-            message.innerHTML = options.message;
+            message.textContent = options.message;
             toast.appendChild(message);
         }
 

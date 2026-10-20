@@ -1,0 +1,27 @@
+<?php
+
+namespace Svenbw\LaravelTabler\Helpers;
+
+class Form
+{
+    public static function colClass(?string $col): string
+    {
+        if ($col === null || trim($col) === '') {
+            return '';
+        }
+
+        $parts = array_filter(
+            explode(' ', $col),
+            fn (string $part) => preg_match('/^((sm|md|lg|xl|xxl)(-(\d{1,2}|auto))?|\d{1,2}|auto)$/', $part) === 1
+        );
+
+        return implode(' ', array_map(fn (string $part) => 'col-'.$part, $parts));
+    }
+
+    public static function errorKey(string $name): string
+    {
+        $name = preg_replace('/\[\]$/', '', $name);
+
+        return preg_replace('/\[(.*?)\]/', '.$1', $name);
+    }
+}

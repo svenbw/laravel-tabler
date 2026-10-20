@@ -20,9 +20,10 @@ class Toast
 
     public function dispatchFrom(Component $sourceComponent): self
     {
-        $this->sourceComponent = $sourceComponent;
+        $toast = clone $this;
+        $toast->sourceComponent = $sourceComponent;
 
-        return $this;
+        return $toast;
     }
 
     public function success(string $message, ?string $title = null, ?int $delay = 5000): self
@@ -43,6 +44,8 @@ class Toast
     {
         if ($this->sourceComponent) {
             $this->sourceComponent->dispatch(self::DISPATCH_TO, message: $message, title: $title, type: $type, delay: $delay, image: $image);
+
+            return;
         }
 
         $this->session->flash('toast', [

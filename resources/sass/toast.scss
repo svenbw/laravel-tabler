@@ -1,3 +1,7 @@
+$toast-background: $blue !default;
+$toast-link-color: #549edb !default;
+$toast-border-width: 4px !default;
+
 #toast-container {
     position: fixed;
     width: 320px;
@@ -42,7 +46,7 @@
         padding: 20px 17px;
         margin: 20px;
         border-radius: 10px;
-        background: $blue;
+        background: $toast-background;
         cursor: pointer;
         box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
         animation-duration: 0.3s;
@@ -51,24 +55,16 @@
         pointer-events: all;
 
         a, a:hover {
-            color: #549edb !important;
+            color: $toast-link-color !important;
             text-decoration: none !important;
         }
 
-        &.toast-success {
-            border-left: 8px solid $success;
-        }
+        border-left: $toast-border-width solid transparent;
 
-        &.toast-warning {
-            border-left: 4px solid $warning;
-        }
-
-        &.toast-error {
-            border-left: 4px solid $danger;
-        }
-
-        &.toast-info {
-            border-left: 4px solid $info;
+        @each $type, $color in (success: $success, warning: $warning, error: $danger, info: $info) {
+            &.toast-#{$type} {
+                border-left-color: $color;
+            }
         }
 
         p, h4 {
@@ -76,6 +72,7 @@
         }
     
         .toast-title {
+            display: block;
             font-weight: 700;
             font-size: 15px;
             margin-bottom: 10px;

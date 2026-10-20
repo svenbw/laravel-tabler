@@ -2,12 +2,15 @@
 
 namespace Svenbw\LaravelTabler;
 
+use Closure;
 use Illuminate\Contracts\Container\Container;
 use Svenbw\LaravelTabler\Menu\MenuBuilder;
 use Svenbw\LaravelTabler\Services\NotificationManager;
 
 class Tabler
 {
+    private static ?Closure $dateFormatResolver = null;
+
     private MenuBuilder $menu;
 
     private NotificationManager $notifications;
@@ -68,5 +71,22 @@ class Tabler
     public function hasSidebar(): bool
     {
         return str_contains(config('tabler.layout.bar_style'), 'sidebar');
+    }
+
+    /**
+     * Resolve the date picker format at render time, e.g. from the preferences of the user.
+     */
+    public static function dateFormatUsing(?Closure $resolver): void
+    {
+        self::$dateFormatResolver = $resolver;
+    }
+
+    public static function dateFormat(): string
+    {
+        if (self::$dateFormatResolver) {
+            return (self::$dateFormatResolver)();
+        }
+
+        return config('tabler.date_format', 'Y-m-d');
     }
 }

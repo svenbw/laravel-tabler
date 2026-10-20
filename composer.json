@@ -31,12 +31,18 @@
         "psr-4": {
             "Svenbw\\LaravelTabler\\Tests\\": "tests/"
         }
-    },        
+    },
     "extra": {
         "laravel": {
             "providers": [
                 "Svenbw\\LaravelTabler\\TablerServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "pint": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true
     }
 }

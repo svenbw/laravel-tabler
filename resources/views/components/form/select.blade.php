@@ -1,9 +1,11 @@
 @props(['label', 'name', 'value' => '', 'col' => null, 'options' => null, 'optionGroups' => null, 'multiple' => false, 'allowEmpty' => false, 'note', 'url' => null])
+@use('Svenbw\LaravelTabler\Helpers\Form')
 @php
 	$wireModel = $attributes->wire('model');
-	$cols = is_string($col) ? join(' ', array_map(fn($col) => 'col-'.$col, explode(' ', $col))) : '';
+	$cols = Form::colClass($col);
 	$id = str_replace('[]','', $name);
-	$isInvalid = isset($errors) && $errors->has($id);
+	$errorKey = Form::errorKey($name);
+	$isInvalid = isset($errors) && $errors->has($errorKey);
 	$alpineOn = $attributes->whereStartsWith(['x-on:', '@']);
 	$attributes = $attributes->except(array_keys($alpineOn->all()));
 @endphp
@@ -132,7 +134,7 @@
 		</div>
 	</div>
 	@if($isInvalid)
-		<div class="invalid-feedback">{{ join(',', $errors->get($id)) }}</div>
+		<div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey)) }}</div>
 	@endif
 	@isset($note)
 		<span class="text-muted">{{ $note }}</span>

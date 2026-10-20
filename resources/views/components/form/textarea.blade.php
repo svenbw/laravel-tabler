@@ -1,7 +1,9 @@
 @props(['label', 'name', 'value', 'col' => null, 'placeholder' => null, 'readonly' => null, 'disabled' => null])
+@use('Svenbw\LaravelTabler\Helpers\Form')
 @php
-	$isInvalid = isset($errors) && $errors->has($name);
-	$cols = is_string($col) ? join(' ', array_map(fn($col) => 'col-'.$col, explode(' ', $col))) : '';
+	$errorKey = Form::errorKey($name);
+	$isInvalid = isset($errors) && $errors->has($errorKey);
+	$cols = Form::colClass($col);
 @endphp
 <div @class(['mb-3', $cols])>
 	<label @class(['form-label', 'required' => $attributes->has('required')]) for={{ $name }}>{{ $label }}</label>
@@ -16,6 +18,6 @@
 		@if($disabled) disabled @endif
 	>@isset($value){{ $value }}@endisset</textarea>
 	@if($isInvalid)
-		<div class="invalid-feedback">{{ join(',', $errors->get($name)) }}</div>
+		<div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey)) }}</div>
 	@endif
 </div>
