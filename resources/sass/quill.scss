@@ -1,0 +1,124 @@
+@import "functions";
+
+@import "quill/dist/quill.core.css";
+@import "quill/dist/quill.snow.css";
+@import "quill/dist/quill.bubble.css";
+@import "@enzedonline/quill-blot-formatter2/dist/css/quill-blot-formatter2.css";
+
+.quill-editor {
+    border-radius: 0 0 theme(border-radius, 4px) theme(border-radius, 4px);
+}
+
+.ql-toolbar.ql-snow {
+    border-radius: theme(border-radius, 4px) theme(border-radius, 4px) 0 0;
+    border-color: theme(border-color, #dee2e6);
+}
+
+.ql-container.ql-snow {
+    border-color: theme(border-color, #dee2e6);
+    font-size: inherit;
+}
+
+.is-invalid .ql-toolbar.ql-snow,
+.is-invalid.ql-container.ql-snow,
+.quill-editor.is-invalid + input + .invalid-feedback,
+.quill-editor.is-invalid {
+    border-color: theme(danger, #d63939);
+}
+
+.quill-wrapper.is-invalid .ql-toolbar.ql-snow,
+.quill-wrapper.is-invalid .ql-container.ql-snow {
+    border-color: theme(danger, #d63939);
+}
+
+.ql-editor {
+    p {
+        margin: 0 0 10px;
+    }
+}
+
+.ql-toolbar.ql-snow,
+.ql-container.ql-snow {
+    background-color: theme(bg-forms);
+    color: theme(body-color);
+}
+
+.ql-snow {
+    .ql-stroke,
+    .ql-stroke-miter {
+        stroke: theme(body-color);
+    }
+
+    .ql-fill,
+    .ql-stroke.ql-fill {
+        fill: theme(body-color);
+    }
+
+    .ql-picker {
+        color: theme(body-color);
+    }
+
+    .ql-picker-options {
+        background-color: theme(bg-surface);
+        border-color: theme(border-color);
+        color: theme(body-color);
+    }
+
+    .ql-picker.ql-expanded .ql-picker-label,
+    .ql-picker.ql-expanded .ql-picker-options {
+        border-color: theme(border-color);
+    }
+
+    a {
+        color: theme(primary);
+    }
+
+    button:hover, button:focus, button.ql-active,
+    .ql-picker-label:hover, .ql-picker-label.ql-active,
+    .ql-picker-item:hover, .ql-picker-item.ql-selected {
+        color: theme(primary);
+
+        .ql-stroke, .ql-stroke-miter {
+            stroke: theme(primary);
+        }
+
+        .ql-fill, .ql-stroke.ql-fill {
+            fill: theme(primary);
+        }
+    }
+
+    .ql-tooltip {
+        background-color: theme(bg-surface);
+        border-color: theme(border-color);
+        color: theme(body-color);
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+
+        input[type="text"] {
+            background-color: theme(bg-forms);
+            border-color: theme(border-color);
+            color: theme(body-color);
+        }
+    }
+}
+
+.ql-editor.ql-blank::before {
+    color: theme(secondary);
+}
+
+.blot-formatter__toolbar-button {
+    color: theme(body-color);
+
+    .ql-stroke,
+    svg[style] > * {
+        stroke: currentColor;
+    }
+
+    .ql-fill {
+        fill: currentColor;
+    }
+
+    &:hover,
+    &.blot-formatter__toolbar-button--selected {
+        color: theme(primary);
+    }
+}

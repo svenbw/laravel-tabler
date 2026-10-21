@@ -1,0 +1,7 @@
+@function theme($name, $fallback: null) {
+    @if $fallback == null {
+        @return var(--#{$name}, var(--tblr-#{$name}));
+    }
+
+    @return var(--#{$name}, var(--tblr-#{$name}, #{$fallback}));
+}

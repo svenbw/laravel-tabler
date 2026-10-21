@@ -1,6 +1,7 @@
-@props(['label', 'name', 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'format' => null, 'enableTime' => false, 'noCalendar' => false, 'time24hr' => true, 'mode' => 'single'])
+@props(['label', 'name', 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'format' => null, 'enableTime' => false, 'noCalendar' => false, 'time24hr' => true, 'mode' => 'single', 'icon' => true, 'displayFormat' => null])
 @use('Svenbw\LaravelTabler\Helpers\WireModelEntangler')
 @use('Svenbw\LaravelTabler\Helpers\Form')
+@use('Svenbw\LaravelTabler\Tabler')
 @php
     $errorKey = Form::errorKey($name);
     $isInvalid = isset($errors) && $errors->has($errorKey);
@@ -8,10 +9,18 @@
     $appendText = $attributes->get('append-text');
     $cols = Form::colClass($col);
     $componentId = $name . '_' . uniqid();
+    $showIcon = $icon && ! $prependText && ! $appendText;
 
-    $format ??= \Svenbw\LaravelTabler\Tabler::dateFormat();
+    $format ??= Tabler::dateFormat();
     if ($value instanceof \DateTimeInterface) {
         $value = $value->format($format);
+    }
+
+    if ($displayFormat === null && ! $noCalendar) {
+        $displayFormat = Tabler::localeDateFormat();
+        if ($enableTime) {
+            $displayFormat .= $time24hr ? ' H:i' : ' h:i K';
+        }
     }
 
     // Flatpickr options
@@ -21,7 +30,12 @@
         'noCalendar' => $noCalendar,
         'time_24hr' => $time24hr,
         'mode' => $mode,
+        'locale' => app()->getLocale(),
     ];
+    if ($displayFormat) {
+        $flatpickrOptions['altInput'] = true;
+        $flatpickrOptions['altFormat'] = $displayFormat;
+    }
 
     // Add any additional options from attributes
     if ($attributes->has('min-date')) {
@@ -76,7 +90,20 @@
             </span>
             @endif
         @endif
-        
+
+        @if($showIcon)
+        <div class="input-icon">
+            <span class="input-icon-addon">
+                @if($noCalendar)
+                <!-- https://tabler.io/icons/icon/clock -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg>
+                @else
+                <!-- https://tabler.io/icons/icon/calendar -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg>
+                @endif
+            </span>
+        @endif
+
         <input
             x-ref="input"
             type="text"
@@ -90,7 +117,11 @@
             @isset($value) value="{{ $value }}" @endisset
             autocomplete="off"
         >
-        
+
+        @if($showIcon)
+        </div>
+        @endif
+
         @if($prependText || $appendText)
             @if($appendText)
             <span class="input-group-text">

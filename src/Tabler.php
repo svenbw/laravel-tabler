@@ -2,6 +2,7 @@
 
 namespace Svenbw\LaravelTabler;
 
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\Container\Container;
 use Svenbw\LaravelTabler\Menu\MenuBuilder;
@@ -88,5 +89,21 @@ class Tabler
         }
 
         return config('tabler.date_format', 'Y-m-d');
+    }
+
+    public static function localeDateFormat(): string
+    {
+        $format = Carbon::now()->locale(app()->getLocale())->getIsoFormats()['L'];
+
+        return strtr($format, [
+            'YYYY' => 'Y',
+            'YY' => 'y',
+            'MMMM' => 'F',
+            'MMM' => 'M',
+            'MM' => 'm',
+            'M' => 'n',
+            'DD' => 'd',
+            'D' => 'j',
+        ]);
     }
 }
