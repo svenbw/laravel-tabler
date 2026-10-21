@@ -1,4 +1,4 @@
-@props(['label', 'name', 'value', 'col' => null, 'placeholder' => null, 'readonly' => null, 'disabled' => null])
+@props(['label', 'name', 'value', 'col' => null, 'placeholder' => null, 'readonly' => null, 'disabled' => null, 'autosize' => false])
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @php
 	$errorKey = Form::errorKey($name);
@@ -13,6 +13,7 @@
 		name="{{ $name }}"
 		id="{{ $name }}"
 		{{ $attributes->whereStartsWith('wire:') }}
+		@if($autosize) x-data x-init="autosize($el)" @endif
 		@if($placeholder) placeholder="{{ $placeholder }}" @endif
 		@if($readonly) readonly @endif
 		@if($disabled) disabled @endif

@@ -11,3 +11,7 @@ import flatpickr from 'flatpickr';
 import { Dutch } from 'flatpickr/dist/esm/l10n/nl.js';
 flatpickr.l10ns.nl = Dutch;
 window.flatpickr = flatpickr;
+
+// form.textarea (autosize)
+import autosize from 'autosize';
+window.autosize = autosize;
