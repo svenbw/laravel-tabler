@@ -121,6 +121,34 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Date locales
+    |--------------------------------------------------------------------------
+    | The datepicker shows a date the way the language of the page writes it,
+    | taken from Carbon. A language code alone picks the country it is named
+    | after (nl: 22-10-2026, en: 10/22/2026); map it to the locale of the
+    | country the site is for:
+    |
+    |     'date_locales' => ['nl' => 'nl_BE', 'en' => 'en_GB'],
+    |
+    */
+
+    'date_locales' => [],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Decimal input
+    |--------------------------------------------------------------------------
+    | What a posted <x-tabler::form.decimal-input> sends: what the field shows
+    | (1.234,50), for the request to parse; or, plain, the number itself
+    | (1234.5). A field can still choose with its own `plain`. With wire:model
+    | the property gets the number either way.
+    |
+    */
+
+    'decimal_plain' => false,
+
+    /*
+    |--------------------------------------------------------------------------
     | Vite
     |--------------------------------------------------------------------------
     | The entry points the layouts hand to @vite. The package ships no compiled

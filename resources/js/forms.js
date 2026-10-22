@@ -1,17 +1,16 @@
-// form.select
 import TomSelect from 'tom-select/dist/esm/tom-select.js';
-window.TomSelect = TomSelect;
-
-// form.decimal-input
 import IMask from 'imask';
-window.IMask = IMask;
-
-// form.datepicker
 import flatpickr from 'flatpickr';
-import { Dutch } from 'flatpickr/dist/esm/l10n/nl.js';
-flatpickr.l10ns.nl = Dutch;
-window.flatpickr = flatpickr;
 
-// form.textarea (autosize)
-import autosize from 'autosize';
-window.autosize = autosize;
+import Select from './alpine/select.js';
+import DecimalInput from './alpine/decimal-input.js';
+import Datepicker from './alpine/datepicker.js';
+import Autosize from './alpine/autosize.js';
+
+Object.assign(window, { TomSelect, IMask, flatpickr });
+
+export const plugins = [Select, DecimalInput, Datepicker, Autosize];
+
+export default function install(Alpine) {
+    plugins.forEach((plugin) => Alpine.plugin(plugin));
+}

@@ -13,7 +13,7 @@
 		name="{{ $name }}"
 		id="{{ $name }}"
 		{{ $attributes->whereStartsWith('wire:') }}
-		@if($autosize) x-data x-init="autosize($el)" @endif
+		@if($autosize) x-data x-autosize @endif
 		@if($placeholder) placeholder="{{ $placeholder }}" @endif
 		@if($readonly) readonly @endif
 		@if($disabled) disabled @endif

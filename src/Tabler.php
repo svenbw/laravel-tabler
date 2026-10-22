@@ -91,9 +91,16 @@ class Tabler
         return config('tabler.date_format', 'Y-m-d');
     }
 
+    public static function dateLocale(): string
+    {
+        $locale = app()->getLocale();
+
+        return config('tabler.date_locales.'.$locale, $locale);
+    }
+
     public static function localeDateFormat(): string
     {
-        $format = Carbon::now()->locale(app()->getLocale())->getIsoFormats()['L'];
+        $format = Carbon::now()->locale(self::dateLocale())->getIsoFormats()['L'];
 
         return strtr($format, [
             'YYYY' => 'Y',

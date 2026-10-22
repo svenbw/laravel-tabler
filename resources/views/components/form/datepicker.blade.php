@@ -30,7 +30,6 @@
         'noCalendar' => $noCalendar,
         'time_24hr' => $time24hr,
         'mode' => $mode,
-        'locale' => app()->getLocale(),
     ];
     if ($displayFormat) {
         $flatpickrOptions['altInput'] = true;
@@ -47,41 +46,17 @@
     if ($attributes->has('disable')) {
         $flatpickrOptions['disable'] = $attributes->get('disable');
     }
-    if ($attributes->has('locale')) {
-        $flatpickrOptions['locale'] = $attributes->get('locale');
-    }
+    $config = [
+        'value' => $value,
+        'locale' => $attributes->get('locale', app()->getLocale()),
+        'options' => $flatpickrOptions,
+    ];
     $entangler = WireModelEntangler::make($attributes);
 @endphp
 
 <div @class(['mb-3', $cols])>
     <label @class(['form-label', 'required' => $attributes->has('required')]) for="{{ $componentId }}">{{ $label }}</label>
-    <div 
-        wire:ignore
-        x-data="{
-            picker: null,
-@if($entangler->hasModel())
-            wireValue: {{ $entangler->entangle() }},
-@else
-            wireValue: null,
-@endif
-            init() {
-                this.picker = flatpickr($refs.input, {
-                    ...@js($flatpickrOptions),
-                    defaultDate: this.wireValue || null,
-                    onChange: (selectedDates, dateStr, instance) => {
-                        this.wireValue = dateStr;
-                    },
-                });
-            
-@if($entangler->hasModel())
-                $watch('wireValue', (newValue) => {
-                    if (newValue !== this.picker.input.value) {
-                        this.picker.setDate(newValue, false);
-                    }
-                });
-@endif
-            }
-        }">
+    <div wire:ignore x-data="datepicker(@js($config){{ $entangler->hasModel() ? ', '.$entangler->entangle() : '' }})">
         @if($prependText || $appendText)
         <div class="input-group input-group-flat">
             @if($prependText)

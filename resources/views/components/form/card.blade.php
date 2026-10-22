@@ -1,7 +1,6 @@
 @props(['header', 'action', 'headerButtons' => null, 'buttons' => null, 'class' => null ])
+@use('Svenbw\LaravelTabler\Services\CardButtons')
 @php
-    use Svenbw\LaravelTabler\Services\CardButtons;
-
     $headerButtons = CardButtons::make($headerButtons);
     $footerButtons = CardButtons::make($buttons);
     $submitAction = $footerButtons->submitAction();

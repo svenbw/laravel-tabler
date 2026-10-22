@@ -147,4 +147,6 @@ export default function registerQuill({ uploadUrl = null } = {}) {
   }
 
   window.Quill = QuillWithBlotFormatter;
+
+  return QuillWithBlotFormatter;
 }
