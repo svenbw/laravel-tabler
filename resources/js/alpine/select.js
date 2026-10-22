@@ -65,10 +65,18 @@ function Select(Alpine) {
                     },
                 }
                 : {
-                    create: true,
+                    create: config.create ?? true,
                     allowEmptyOption: config.allowEmpty,
                     render,
                 };
+
+            if (config.search === false && config.url === null) {
+                options.controlInput = null;
+            }
+            if (config.dropdownParent) {
+                options.dropdownParent = config.dropdownParent;
+            }
+            Object.assign(options, config.settings ?? {});
 
             const select = this.select = new TomSelect(this.$refs.select, options);
 

@@ -1,4 +1,4 @@
-@props(['label', 'name', 'value' => '', 'col' => null, 'options' => null, 'optionGroups' => null, 'multiple' => false, 'allowEmpty' => false, 'hint' => null, 'url' => null, 'disabled' => null])
+@props(['label', 'name', 'value' => '', 'col' => null, 'options' => null, 'optionGroups' => null, 'multiple' => false, 'allowEmpty' => false, 'hint' => null, 'url' => null, 'disabled' => null, 'create' => true, 'search' => true, 'dropdownParent' => null, 'settings' => []])
 @use('Svenbw\LaravelTabler\Helpers\WireModelEntangler')
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @php
@@ -14,6 +14,10 @@
 		'url' => $url,
 		'multiple' => (bool) $multiple,
 		'allowEmpty' => (bool) $allowEmpty,
+		'create' => (bool) $create,
+		'search' => (bool) $search,
+		'dropdownParent' => $dropdownParent,
+		'settings' => (object) $settings,
 	];
 @endphp
 <div @class(['mb-3', $cols])>
