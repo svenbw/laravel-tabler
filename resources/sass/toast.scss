@@ -1,10 +1,27 @@
-$toast-background: $blue !default;
-$toast-link-color: #549edb !default;
-$toast-border-width: 4px !default;
+
+$app-toast-background: var(--bg-surface) !default;
+$app-toast-color: var(--body-color) !default;
+$app-toast-border-color: var(--border-color) !default;
+$app-toast-border-width: 4px !default;
+$app-toast-border-radius: var(--border-radius-lg) !default;
+$app-toast-shadow: var(--shadow-dropdown) !default;
+$app-toast-link-color: var(--link-color) !default;
+$app-toast-width: 320px !default;
+$app-toast-margin: 20px !default;
+
+$app-toast-zindex: 1090 !default;
+$app-toast-types: (
+    success: var(--success),
+    warning: var(--warning),
+    error: var(--danger),
+    info: var(--info),
+) !default;
 
 #toast-container {
     position: fixed;
-    width: 320px;
+    z-index: $app-toast-zindex;
+    width: $app-toast-width;
+    max-width: 100%;
     pointer-events: none;
 
     &.toasts-top-right {
@@ -28,11 +45,9 @@ $toast-border-width: 4px !default;
     }
 
     &.toasts-top-center {
-        left: 0;
         top: 0;
-        bottom: 0;
-        right: 0;
-        margin: auto;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
     &.toasts-bottom-center {
@@ -42,46 +57,45 @@ $toast-border-width: 4px !default;
     }
 
     .toast-toast {
+        --toast-type-color: var(--primary);
         position: relative;
-        padding: 20px 17px;
-        margin: 20px;
-        border-radius: 10px;
-        background: $toast-background;
+        padding: 1rem 1.25rem;
+        margin: $app-toast-margin;
+        color: $app-toast-color;
+        background: $app-toast-background;
+        border: 1px solid $app-toast-border-color;
+        border-left: $app-toast-border-width solid var(--toast-type-color);
+        border-radius: $app-toast-border-radius;
+        box-shadow: $app-toast-shadow;
         cursor: pointer;
-        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
         animation-duration: 0.3s;
         animation-name: ToastAnimation;
         animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
         pointer-events: all;
 
-        a, a:hover {
-            color: $toast-link-color !important;
-            text-decoration: none !important;
-        }
-
-        border-left: $toast-border-width solid transparent;
-
-        @each $type, $color in (success: $success, warning: $warning, error: $danger, info: $info) {
+        @each $type, $color in $app-toast-types {
             &.toast-#{$type} {
-                border-left-color: $color;
+                --toast-type-color: #{$color};
             }
         }
 
-        p, h4 {
-            margin: 3px 0 !important;
+        a, a:hover {
+            color: $app-toast-link-color;
         }
-    
+
+        p, h4 {
+            margin: 0;
+        }
+
         .toast-title {
             display: block;
-            font-weight: 700;
-            font-size: 15px;
-            margin-bottom: 10px;
-            color: $white;
+            font-weight: var(--font-weight-bold, 700);
+            margin-bottom: 0.25rem;
+            color: var(--toast-type-color);
         }
-        
+
         .toast-message {
-            font-size: 14px;
-            color: $white;
+            color: $app-toast-color;
         }
 
         .toast-image {
@@ -91,8 +105,16 @@ $toast-border-width: 4px !default;
             width: 50px;
             height: 50px;
             border-radius: 100%;
-            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-            background: #fff;
+            box-shadow: $app-toast-shadow;
+            background: $app-toast-background;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        width: 100%;
+
+        .toast-toast {
+            margin: 0.75rem;
         }
     }
 
@@ -102,7 +124,6 @@ $toast-border-width: 4px !default;
         animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
         animation-fill-mode: forwards;
     }
-
 
     @keyframes ToastAnimation {
         from {
@@ -114,7 +135,7 @@ $toast-border-width: 4px !default;
             opacity: 1;
         }
     }
-    
+
     @keyframes ToastFadeOutAnimation {
         from {
             transform: translate3d(0, 0, 0);

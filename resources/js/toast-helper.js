@@ -1,4 +1,13 @@
 class AppToast {
+    static positions = {
+        topLeft: 'toasts-top-left',
+        topRight: 'toasts-top-right',
+        topCenter: 'toasts-top-center',
+        bottomLeft: 'toasts-bottom-left',
+        bottomRight: 'toasts-bottom-right',
+        bottomCenter: 'toasts-bottom-center',
+    }
+
     toasts = {}
     container = undefined
     instanceId = 0
@@ -59,30 +68,9 @@ class AppToast {
         }
 
         // position
-        var position = options.positionClass;
-        switch (position) {
-            case 'topLeft':
-                this.container.classList.add('toasts-top-left');
-                break;
-            case 'bottomLeft':
-                this.container.classList.add('toasts-bottom-left');
-                break;
-            case 'bottomRight':
-                this.container.classList.add('toasts-bottom-right');
-                break;
-            case 'topRight':
-                this.container.classList.add('toasts-top-right');
-                break;
-            case 'topCenter':
-                this.container.classList.add('toasts-top-center');
-                break;
-            case 'bottomCenter':
-                this.container.classList.add('toasts-bottom-center');
-                break;
-            default:
-                this.container.classList.add('toasts-top-right');
-                break;
-        }
+        const position = AppToast.positions[options.positionClass] ?? AppToast.positions.topRight;
+        this.container.classList.remove(...Object.values(AppToast.positions));
+        this.container.classList.add(position);
 
         // click callback
         if (typeof options.callback === 'function') {
@@ -90,43 +78,46 @@ class AppToast {
         }
 
         // toast api
-        toast.hide = function () {
-            toast.className += ' toast-fade-out';
-            toast.addEventListener('animationend', removeToast, false);
+        let hidden = false;
+        toast.hide = () => {
+            if (hidden) {
+                return;
+            }
+
+            hidden = true;
+            clearTimeout(timeout);
+            toast.classList.add('toast-fade-out');
+            toast.addEventListener('animationend', removeToast, { once: true });
 
             if (options.onHide) {
                 options.onHide();
             }
         };
 
+        const removeToast = () => {
+            toast.remove();
+            delete this.toasts[toast.id];
+        };
+
         if (options.single === true) {
-            var elements =
-                document.getElementsByClassName('toast-toast');
-            while (elements.length > 0) {
-                elements[0].parentNode.removeChild(elements[0]);
-            }
+            Object.values(this.toasts).forEach(other => {
+                other.remove();
+                delete this.toasts[other.id];
+            });
         }
 
-        if (options.delay) {
-            setTimeout(toast.hide, options.delay);
-        }
+        const timeout = options.delay ? setTimeout(toast.hide, options.delay) : null;
 
         if (options.type) {
-            toast.className += ' toast-' + options.type;
+            toast.classList.add('toast-' + options.type);
         }
 
         toast.addEventListener('click', toast.hide);
 
-        function removeToast() {
-            const container = document.getElementById('toast-container')
-            container.removeChild(toast);
-        }
-
         this.container.appendChild(toast);
 
         this.toasts[toast.id] = toast;
-
-    } 
+    }
 
     static show(options) {
         const instance = AppToast._getToastInstance()
