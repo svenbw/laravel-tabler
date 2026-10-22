@@ -1,4 +1,4 @@
-@props(['label', 'name', 'value' => '', 'col' => null, 'options' => null, 'optionGroups' => null, 'multiple' => false, 'allowEmpty' => false, 'note', 'url' => null])
+@props(['label', 'name', 'value' => '', 'col' => null, 'options' => null, 'optionGroups' => null, 'multiple' => false, 'allowEmpty' => false, 'hint' => null, 'url' => null])
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @php
 	$wireModel = $attributes->wire('model');
@@ -136,7 +136,7 @@
 	@if($isInvalid)
 		<div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey)) }}</div>
 	@endif
-	@isset($note)
-		<span class="text-muted">{{ $note }}</span>
-	@endisset
+	@if($hint)
+		<small class="form-hint">{{ $hint }}</small>
+	@endif
 </div>

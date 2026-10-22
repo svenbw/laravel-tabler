@@ -18,6 +18,17 @@ class Form
         return implode(' ', array_map(fn (string $part) => 'col-'.$part, $parts));
     }
 
+    public static function id(string $name, mixed $value = null): string
+    {
+        $id = trim(preg_replace('/[^A-Za-z0-9_-]+/', '-', $name), '-');
+
+        if ($value !== null && (string) $value !== '') {
+            $id .= '-'.trim(preg_replace('/[^A-Za-z0-9_-]+/', '-', (string) $value), '-');
+        }
+
+        return $id;
+    }
+
     public static function errorKey(string $name): string
     {
         $name = preg_replace('/\[\]$/', '', $name);

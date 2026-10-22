@@ -1,4 +1,4 @@
-@props(['label', 'name', 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null,'precision' => 2,'min' => 0,'max' => 999999999])
+@props(['label', 'name', 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null,'precision' => 2,'min' => 0,'max' => 999999999, 'hint' => null])
 @use('Svenbw\LaravelTabler\Helpers\WireModelEntangler')
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @php
@@ -102,5 +102,8 @@
 
     @if($isInvalid)
         <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey)) }}</div>
+    @endif
+    @if($hint)
+        <small class="form-hint">{{ $hint }}</small>
     @endif
 </div>

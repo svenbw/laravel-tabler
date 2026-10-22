@@ -1,4 +1,4 @@
-@props(['label', 'name', 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'format' => null, 'enableTime' => false, 'noCalendar' => false, 'time24hr' => true, 'mode' => 'single', 'icon' => true, 'displayFormat' => null])
+@props(['label', 'name', 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'format' => null, 'enableTime' => false, 'noCalendar' => false, 'time24hr' => true, 'mode' => 'single', 'icon' => true, 'displayFormat' => null, 'hint' => null])
 @use('Svenbw\LaravelTabler\Helpers\WireModelEntangler')
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @use('Svenbw\LaravelTabler\Tabler')
@@ -134,5 +134,8 @@
     
     @if($isInvalid)
     <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey)) }}</div>
+    @endif
+    @if($hint)
+    <small class="form-hint">{{ $hint }}</small>
     @endif
 </div>

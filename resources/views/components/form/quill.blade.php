@@ -10,6 +10,7 @@
     'height'      => 200,
     'theme'       => 'snow',
     'toolbar'     => null,
+    'hint'        => null,
 ])
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @php
@@ -140,5 +141,8 @@
 
     @if($isInvalid)
         <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey)) }}</div>
+    @endif
+    @if($hint)
+        <small class="form-hint">{{ $hint }}</small>
     @endif
 </div>
