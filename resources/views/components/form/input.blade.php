@@ -1,4 +1,4 @@
-@props(['label', 'name', 'value', 'placeholder' => null, 'type' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null])
+@props(['label', 'name', 'id' => null, 'value', 'placeholder' => null, 'type' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null])
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @php
 	$errorKey = Form::errorKey($name);
@@ -7,9 +7,10 @@
 	$appendText = $attributes->get('append-text');
 	$type = $attributes->has('password') ? 'password' : $type ?? 'text';
 	$cols = Form::colClass($col);
+	$id ??= $name;
 @endphp
 <div @class(['mb-3', $cols])>
-	<label @class(['form-label', 'required' => $attributes->has('required')]) for={{ $name }}>{{ $label }}</label>
+	<label @class(['form-label', 'required' => $attributes->has('required')]) for="{{ $id }}">{{ $label }}</label>
 	@if($prependText || $appendText)
 		<div class="input-group input-group-flat">
 		@if($prependText)
@@ -22,8 +23,8 @@
 		type="{{ $type }}"
 		@class(['form-control', 'is-invalid' => $isInvalid, 'ps-0' => !!$prependText, 'text-end pe-0' => !!$appendText])
 		name="{{ $name }}"
-		id="{{ $name }}"
-		{{ $attributes->whereStartsWith('wire:') }}
+		id="{{ $id }}"
+		{{ $attributes->whereStartsWith(['wire:', 'x-', '@']) }}
 		@if($placeholder) placeholder="{{ $placeholder }}" @endif
 		@if($attributes->has('readonly')) readonly @endif
 		@if($attributes->has('autonumeric')) data-auto-numeric @endif

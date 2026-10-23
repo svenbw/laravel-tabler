@@ -1,19 +1,20 @@
-@props(['label', 'name', 'value', 'col' => null, 'placeholder' => null, 'readonly' => null, 'disabled' => null, 'autosize' => false])
+@props(['label', 'name', 'id' => null, 'value', 'rows' => null, 'col' => null, 'placeholder' => null, 'readonly' => null, 'disabled' => null, 'autosize' => false])
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @php
 	$errorKey = Form::errorKey($name);
 	$isInvalid = isset($errors) && $errors->has($errorKey);
 	$cols = Form::colClass($col);
+	$id ??= $name;
 @endphp
 <div @class(['mb-3', $cols])>
-	<label @class(['form-label', 'required' => $attributes->has('required')]) for={{ $name }}>{{ $label }}</label>
+	<label @class(['form-label', 'required' => $attributes->has('required')]) for="{{ $id }}">{{ $label }}</label>
 	<textarea
-		type="text"
 		@class(['form-control', 'is-invalid' => $isInvalid])
 		name="{{ $name }}"
-		id="{{ $name }}"
-		{{ $attributes->whereStartsWith('wire:') }}
-		@if($autosize) x-data x-autosize @endif
+		id="{{ $id }}"
+		{{ $attributes->whereStartsWith(['wire:', 'x-', '@']) }}
+		@isset($rows) rows="{{ $rows }}" @endisset
+		@if($autosize) @unless($attributes->has('x-data')) x-data @endunless x-autosize @endif
 		@if($placeholder) placeholder="{{ $placeholder }}" @endif
 		@if($readonly) readonly @endif
 		@if($disabled) disabled @endif
