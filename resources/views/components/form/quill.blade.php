@@ -1,17 +1,4 @@
-@props([
-    'label',
-    'name',
-    'value'       => null,
-    'placeholder' => null,
-    'tabindex'    => null,
-    'col'         => null,
-    'readonly'    => null,
-    'disabled'    => null,
-    'height'      => 200,
-    'theme'       => 'snow',
-    'toolbar'     => null,
-    'hint'        => null,
-])
+@props(['label', 'name', 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'height' => 200, 'theme' => 'snow', 'toolbar' => null, 'hint' => null])
 @use('Svenbw\LaravelTabler\Helpers\WireModelEntangler')
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @php

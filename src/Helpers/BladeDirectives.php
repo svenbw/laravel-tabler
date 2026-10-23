@@ -4,7 +4,6 @@ namespace Svenbw\LaravelTabler\Helpers;
 
 class BladeDirectives
 {
-    // HasDeleteDialog Trait
     public static function ifDeleteDialog(): string
     {
         return <<<'EOT'
@@ -12,7 +11,6 @@ class BladeDirectives
 EOT;
     }
 
-    // HasDeleteDialog Trait
     public static function endifDeleteDialog(): string
     {
         return <<<'EOT'
