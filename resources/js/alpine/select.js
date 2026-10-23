@@ -47,6 +47,7 @@ function Select(Alpine) {
     Alpine.data('select', (config, value = config.value) => ({
         value,
         select: null,
+        reposition: null,
 
         init() {
             const options = config.url !== null
@@ -92,6 +93,11 @@ function Select(Alpine) {
                 values.length ? select.setValue(values, true) : select.clear(true);
             };
 
+            if (select.settings.dropdownParent === 'body') {
+                this.reposition = () => select.isOpen && select.positionDropdown();
+                document.addEventListener('scroll', this.reposition, { capture: true, passive: true });
+            }
+
             select.on('change', (value) => {
                 this.value = value;
             });
@@ -101,6 +107,9 @@ function Select(Alpine) {
         },
 
         destroy() {
+            if (this.reposition) {
+                document.removeEventListener('scroll', this.reposition, { capture: true });
+            }
             this.select?.destroy();
         },
     }));
