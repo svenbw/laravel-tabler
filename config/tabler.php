@@ -108,7 +108,7 @@ return [
     |--------------------------------------------------------------------------
     | Date format
     |--------------------------------------------------------------------------
-    | The default format of <x-tabler::form.datepicker>, in flatpickr tokens,
+    | The default format of <x-tabler::form.date-picker>, in flatpickr tokens,
     | which match the PHP date() ones for the common cases. A datepicker can
     | still pass its own `format`. To resolve it per request, e.g. from the
     | preferences of the user, register a resolver in a service provider:

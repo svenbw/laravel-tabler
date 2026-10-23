@@ -1,62 +1,16 @@
-@props(['label', 'name', 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'format' => null, 'enableTime' => false, 'noCalendar' => false, 'time24hr' => true, 'mode' => 'single', 'icon' => true, 'displayFormat' => null, 'hint' => null])
-@use('Svenbw\LaravelTabler\Helpers\WireModelEntangler')
 @use('Svenbw\LaravelTabler\Helpers\Form')
-@use('Svenbw\LaravelTabler\Tabler')
 @php
-    $errorKey = Form::errorKey($name);
-    $isInvalid = isset($errors) && $errors->has($errorKey);
+    $isInvalid = isset($errors) && $errors->has($errorKey());
     $prependText = $attributes->get('prepend-text');
     $appendText = $attributes->get('append-text');
-    $cols = Form::colClass($col);
-    $componentId = $name . '_' . uniqid();
     $showIcon = $icon && ! $prependText && ! $appendText;
-
-    $format ??= Tabler::dateFormat();
-    if ($value instanceof \DateTimeInterface) {
-        $value = $value->format($format);
-    }
-
-    if ($displayFormat === null && ! $noCalendar) {
-        $displayFormat = Tabler::localeDateFormat();
-        if ($enableTime) {
-            $displayFormat .= $time24hr ? ' H:i' : ' h:i K';
-        }
-    }
-
-    // Flatpickr options
-    $flatpickrOptions = [
-        'dateFormat' => $format,
-        'enableTime' => $enableTime,
-        'noCalendar' => $noCalendar,
-        'time_24hr' => $time24hr,
-        'mode' => $mode,
-    ];
-    if ($displayFormat) {
-        $flatpickrOptions['altInput'] = true;
-        $flatpickrOptions['altFormat'] = $displayFormat;
-    }
-
-    // Add any additional options from attributes
-    if ($attributes->has('min-date')) {
-        $flatpickrOptions['minDate'] = $attributes->get('min-date');
-    }
-    if ($attributes->has('max-date')) {
-        $flatpickrOptions['maxDate'] = $attributes->get('max-date');
-    }
-    if ($attributes->has('disable')) {
-        $flatpickrOptions['disable'] = $attributes->get('disable');
-    }
-    $config = [
-        'value' => $value,
-        'locale' => $attributes->get('locale', app()->getLocale()),
-        'options' => $flatpickrOptions,
-    ];
-    $entangler = WireModelEntangler::make($attributes);
 @endphp
 
-<div @class(['mb-3', $cols])>
-    <label @class(['form-label', 'required' => $attributes->has('required')]) for="{{ $componentId }}">{{ $label }}</label>
-    <div wire:ignore x-data="datepicker(@js($config){{ $entangler->hasModel() ? ', '.$entangler->entangle() : '' }})">
+<div {{ $attributes->only('class')->class([Form::margin($attributes->get('class')), $cols()]) }}>
+    @if(filled($label))
+        <label @class(['form-label', 'required' => $attributes->has('required')]) for="{{ $id }}">{{ $label }}</label>
+    @endif
+    <div wire:ignore x-data="{{ $xData() }}">
         @if($prependText || $appendText)
         <div class="input-group input-group-flat">
             @if($prependText)
@@ -84,10 +38,10 @@
             type="text"
             @class(['form-control', 'is-invalid' => $isInvalid, 'ps-0' => !!$prependText, 'text-end pe-0' => !!$appendText])
             name="{{ $name }}"
-            id="{{ $componentId }}"
+            id="{{ $id }}"
             @if($placeholder) placeholder="{{ $placeholder }}" @endif
-            @if($attributes->has('readonly') || $readonly) readonly @endif
-            @if($attributes->has('disabled') || $disabled) disabled @endif
+            @if($readonly) readonly @endif
+            @if($disabled) disabled @endif
             @isset($tabindex) tabindex="{{ $tabindex }}" @endif
             @isset($value) value="{{ $value }}" @endisset
             autocomplete="off"
@@ -108,7 +62,7 @@
     </div>
     
     @if($isInvalid)
-    <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey)) }}</div>
+    <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey())) }}</div>
     @endif
     @if($hint)
     <small class="form-hint">{{ $hint }}</small>

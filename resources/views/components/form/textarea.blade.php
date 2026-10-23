@@ -1,4 +1,4 @@
-@props(['label', 'name', 'id' => null, 'value', 'rows' => null, 'col' => null, 'placeholder' => null, 'readonly' => null, 'disabled' => null, 'autosize' => false])
+@props(['label' => null, 'name', 'id' => null, 'value', 'rows' => null, 'col' => null, 'placeholder' => null, 'readonly' => null, 'disabled' => null, 'autosize' => false])
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @php
 	$errorKey = Form::errorKey($name);
@@ -6,8 +6,10 @@
 	$cols = Form::colClass($col);
 	$id ??= $name;
 @endphp
-<div @class(['mb-3', $cols])>
-	<label @class(['form-label', 'required' => $attributes->has('required')]) for="{{ $id }}">{{ $label }}</label>
+<div {{ $attributes->only('class')->class([Form::margin($attributes->get('class')), $cols]) }}>
+	@if(filled($label))
+		<label @class(['form-label', 'required' => $attributes->has('required')]) for="{{ $id }}">{{ $label }}</label>
+	@endif
 	<textarea
 		@class(['form-control', 'is-invalid' => $isInvalid])
 		name="{{ $name }}"

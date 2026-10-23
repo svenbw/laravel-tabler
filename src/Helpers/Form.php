@@ -35,4 +35,9 @@ class Form
 
         return preg_replace('/\[(.*?)\]/', '.$1', $name);
     }
+
+    public static function margin(?string $class, string $default = 'mb-3'): ?string
+    {
+        return preg_match('/(^|\s)m[tbyx]?-/', (string) $class) === 1 ? null : $default;
+    }
 }

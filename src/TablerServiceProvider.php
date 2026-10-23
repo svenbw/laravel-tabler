@@ -3,9 +3,9 @@
 namespace Svenbw\LaravelTabler;
 
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Svenbw\LaravelTabler\Services\Toast;
-use Svenbw\LaravelTabler\View\Components\Form\Card as FormCard;
 
 class TablerServiceProvider extends ServiceProvider
 {
@@ -45,9 +45,7 @@ class TablerServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom($this->packagePath('resources/views'), $this->packagePrefix);
 
-        $this->loadViewComponentsAs($this->packagePrefix, [
-            'form-card' => FormCard::class,
-        ]);
+        Blade::componentNamespace('Svenbw\\LaravelTabler\\View\\Components', $this->packagePrefix);
 
         if ($this->app->runningInConsole()) {
             $this->publishes([

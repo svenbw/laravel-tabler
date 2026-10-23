@@ -16,8 +16,7 @@
         $checked = filter_var($checked, FILTER_VALIDATE_BOOL);
     }
 
-    $class = (string) $attributes->get('class', '');
-    $margin = preg_match('/(^|\s)m[tbyx]?-/', $class) === 1 ? null : $defaultMargin;
+    $margin = Form::margin($attributes->get('class'), $defaultMargin);
 @endphp
 <div {{ $attributes->only('class')->class([$margin, Form::colClass($col)]) }}>
     <label @class(['form-check', 'form-switch' => $switch, 'form-check-inline' => $inline]) @if($id) for="{{ $id }}" @endif>

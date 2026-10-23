@@ -49,7 +49,7 @@
 
 <div
     @class(['mb-3', $cols])
-    x-data="quillEditor(@js($config){{ $entangler->hasModel() ? ', '.$entangler->entangle() : '' }})"
+    x-data="{{ $entangler->xData('quillEditor', $config) }}"
 >
     <label @class(['form-label', 'required' => $attributes->get('required')]) for="{{ $inputId }}">
         {{ $label }}

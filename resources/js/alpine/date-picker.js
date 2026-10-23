@@ -5,8 +5,8 @@ import { German } from 'flatpickr/dist/esm/l10n/de.js';
 
 Object.assign(flatpickr.l10ns, { nl: Dutch, fr: French, de: German });
 
-function Datepicker(Alpine) {
-    Alpine.data('datepicker', (config, value = config.value) => ({
+function DatePicker(Alpine) {
+    Alpine.data('datePicker', (config, value = config.value) => ({
         value,
         picker: null,
 
@@ -19,6 +19,11 @@ function Datepicker(Alpine) {
                     this.value = dateStr;
                 },
             });
+
+            if (this.picker.altInput && this.$refs.input.id) {
+                this.picker.altInput.id = this.$refs.input.id;
+                this.$refs.input.removeAttribute('id');
+            }
 
             this.$watch('value', (value) => {
                 if ((value ?? '') !== this.picker.input.value) {
@@ -33,4 +38,4 @@ function Datepicker(Alpine) {
     }));
 }
 
-export default Datepicker;
+export default DatePicker;

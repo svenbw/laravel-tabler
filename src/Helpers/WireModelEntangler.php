@@ -2,6 +2,8 @@
 
 namespace Svenbw\LaravelTabler\Helpers;
 
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Js;
 use Illuminate\View\ComponentAttributeBag;
 
 class WireModelEntangler
@@ -43,6 +45,16 @@ class WireModelEntangler
     public function entangle(): string
     {
         return sprintf('$wire.entangle(\'%s\')%s', $this->model, $this->modifiers ? '.'.$this->modifiers : '');
+    }
+
+    public function xData(string $component, mixed $config): HtmlString
+    {
+        $arguments = Js::from($config)->toHtml();
+        if ($this->hasModel()) {
+            $arguments .= ', '.e($this->entangle());
+        }
+
+        return new HtmlString($component.'('.$arguments.')');
     }
 
     public function wireProperty(): string

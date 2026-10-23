@@ -1,4 +1,4 @@
-@props(['label', 'name', 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'precision' => 2, 'min' => 0, 'max' => 999999999, 'signed' => false, 'plain' => null, 'hint' => null])
+@props(['label' => null, 'name', 'id' => null, 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'precision' => 2, 'min' => 0, 'max' => 999999999, 'signed' => false, 'plain' => null, 'hint' => null])
 @use('Svenbw\LaravelTabler\Helpers\WireModelEntangler')
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @php
@@ -7,6 +7,7 @@
     $prependText = $attributes->get('prepend-text');
     $appendText = $attributes->get('append-text');
     $cols = Form::colClass($col);
+    $id ??= $name;
     $entangler = WireModelEntangler::make($attributes);
     $plain = (bool) ($plain ?? config('tabler.decimal_plain', false));
 
@@ -21,8 +22,10 @@
         'value' => $value,
     ];
 @endphp
-<div @class(['mb-3', $cols]) x-data="decimalInput(@js($config){{ $entangler->hasModel() ? ', '.$entangler->entangle() : '' }})">
-    <label @class(['form-label', 'required' => $attributes->has('required')]) for="{{ $name }}">{{ $label }}</label>
+<div {{ $attributes->only('class')->class([Form::margin($attributes->get('class')), $cols]) }} x-data="{{ $entangler->xData('decimalInput', $config) }}">
+    @if(filled($label))
+        <label @class(['form-label', 'required' => $attributes->has('required')]) for="{{ $id }}">{{ $label }}</label>
+    @endif
 
     @if($prependText || $appendText)
         <div class="input-group input-group-flat">
@@ -36,7 +39,7 @@
         inputmode="decimal"
         x-ref="input"
         @class(['form-control', 'is-invalid' => $isInvalid, 'ps-0' => !!$prependText, 'text-end' => !!$appendText || !!$prependText, 'pe-0' => !!$appendText])
-        id="{{ $name }}"
+        id="{{ $id }}"
         @unless($plain) name="{{ $name }}" @endunless
         @if($placeholder) placeholder="{{ $placeholder }}" @endif
         @if($readonly || $attributes->has('readonly')) readonly @endif
