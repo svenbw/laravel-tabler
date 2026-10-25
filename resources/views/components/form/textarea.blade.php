@@ -20,7 +20,7 @@
         @if($placeholder) placeholder="{{ $placeholder }}" @endif
         @if($readonly) readonly @endif
         @if($disabled) disabled @endif
-    >@isset($value){{ $value }}@endisset</textarea>
+    >{{ $value ?? '' }}</textarea>
     @if($isInvalid)
         <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey)) }}</div>
     @endif
