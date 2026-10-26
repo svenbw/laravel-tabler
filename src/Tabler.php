@@ -91,6 +91,13 @@ class Tabler
         return config('tabler.date_format', 'Y-m-d');
     }
 
+    public static function errorText(int|string|null $code, string $field): string
+    {
+        $key = 'tabler::errors.codes.'.$code;
+
+        return __((filled($code) && trans()->has($key) ? $key : 'tabler::errors.codes.default').'.'.$field);
+    }
+
     public static function dateLocale(): string
     {
         $locale = app()->getLocale();
