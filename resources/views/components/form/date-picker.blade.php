@@ -63,9 +63,9 @@
     </div>
     
     @if($isInvalid)
-    <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey())) }}</div>
+        <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey())) }}</div>
     @endif
     @if($hint)
-    <small class="form-hint">{{ $hint }}</small>
+        <small class="form-hint">{{ $hint }}</small>
     @endif
 </div>

@@ -1,4 +1,4 @@
-@props(['label' => null, 'name', 'id' => null, 'value', 'placeholder' => null, 'type' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'required' => false])
+@props(['label' => null, 'name', 'id' => null, 'value', 'placeholder' => null, 'type' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'required' => false, 'hint' => null])
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @php
     $errorKey = Form::errorKey($name);
@@ -46,5 +46,8 @@
     @endif
     @if($isInvalid)
         <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey)) }}</div>
+    @endif
+    @if($hint)
+        <small class="form-hint">{{ $hint }}</small>
     @endif
 </div>
