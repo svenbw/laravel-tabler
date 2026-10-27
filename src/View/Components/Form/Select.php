@@ -24,6 +24,7 @@ class Select extends Component
         public bool $allowEmpty = false,
         public Htmlable|string|null $hint = null,
         public ?string $url = null,
+        public bool $readonly = false,
         public bool $disabled = false,
         public bool $required = false,
         public bool $create = true,
@@ -53,6 +54,7 @@ class Select extends Component
             'allowEmpty' => $this->allowEmpty,
             'create' => $this->create,
             'search' => $this->search,
+            'readonly' => $this->readonly,
             'dropdownParent' => $this->dropdownParent,
             'settings' => (object) $this->settings,
         ];

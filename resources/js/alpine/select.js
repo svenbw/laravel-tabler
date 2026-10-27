@@ -80,6 +80,9 @@ function Select(Alpine) {
             Object.assign(options, config.settings ?? {});
 
             const select = this.select = new TomSelect(this.$refs.select, options);
+            if (config.readonly) {
+                select.lock();
+            }
 
             const show = () => {
                 const shown = optionsOf(this.value);

@@ -18,7 +18,6 @@
                 name="{{ $name }}"
                 id="{{ $id }}"
                 @class(['is-invalid' => $isInvalid])
-                @if($attributes->has('readonly')) readonly @endif
                 @if($disabled) disabled @endif
                 @if($required) aria-required="true" @endif
             >
