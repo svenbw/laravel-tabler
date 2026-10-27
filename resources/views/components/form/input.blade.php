@@ -1,4 +1,4 @@
-@props(['label' => null, 'name', 'id' => null, 'value', 'placeholder' => null, 'type' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null])
+@props(['label' => null, 'name', 'id' => null, 'value', 'placeholder' => null, 'type' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'required' => false])
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @php
     $errorKey = Form::errorKey($name);
@@ -11,7 +11,7 @@
 @endphp
 <div {{ $attributes->only('class')->class([Form::margin($attributes->get('class')), $cols]) }}>
     @if(filled($label))
-        <label @class(['form-label', 'required' => $attributes->has('required')]) for="{{ $id }}">{{ $label }}</label>
+        <label @class(['form-label', 'required' => $required]) for="{{ $id }}">{{ $label }}</label>
     @endif
     @if($prependText || $appendText)
         <div class="input-group input-group-flat">
@@ -28,11 +28,11 @@
         id="{{ $id }}"
         {{ $attributes->whereStartsWith(['wire:', 'x-', '@']) }}
         @if($placeholder) placeholder="{{ $placeholder }}" @endif
-        @if($attributes->has('readonly')) readonly @endif
         @if($attributes->has('autonumeric')) data-auto-numeric @endif
         @if($attributes->has('autofocus')) autofocus @endif
         @if($readonly) readonly @endif
         @if($disabled) disabled @endif
+        @if($required) aria-required="true" @endif
         @isset($tabindex) tabindex="{{ $tabindex }}" @endif
         @isset($value) value="{{ $value }}" @endisset
     >

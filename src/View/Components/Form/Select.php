@@ -25,6 +25,7 @@ class Select extends Component
         public Htmlable|string|null $hint = null,
         public ?string $url = null,
         public bool $disabled = false,
+        public bool $required = false,
         public bool $create = true,
         public bool $search = true,
         public ?string $dropdownParent = null,

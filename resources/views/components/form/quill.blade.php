@@ -1,4 +1,4 @@
-@props(['label', 'name', 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'height' => 200, 'theme' => 'snow', 'toolbar' => null, 'hint' => null])
+@props(['label', 'name', 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'required' => false, 'height' => 200, 'theme' => 'snow', 'toolbar' => null, 'hint' => null])
 @use('Svenbw\LaravelTabler\Helpers\WireModelEntangler')
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @php
@@ -7,9 +7,8 @@
     $cols      = Form::colClass($col);
     $editorId  = 'quill_' . str_replace(['.', '[', ']'], '_', $name);
     $inputId   = $editorId . '_input';
-    $isReadonly = $readonly || $attributes->has('readonly');
 
-    if ($disabled || $isReadonly) {
+    if ($disabled || $readonly) {
         $resolvedToolbar = false;
     } else {
         $defaultToolbar = [
@@ -26,7 +25,7 @@
     $config = [
         'theme' => $theme,
         'placeholder' => $placeholder ?? '',
-        'readOnly' => (bool) $isReadonly,
+        'readOnly' => (bool) $readonly,
         'disabled' => (bool) $disabled,
         'autofocus' => $attributes->has('autofocus'),
         'toolbar' => $resolvedToolbar,
@@ -38,7 +37,7 @@
     @class(['mb-3', $cols])
     x-data="{{ $entangler->xData('quillEditor', $config) }}"
 >
-    <label @class(['form-label', 'required' => $attributes->get('required')]) for="{{ $inputId }}">
+    <label @class(['form-label', 'required' => $required]) for="{{ $inputId }}">
         {{ $label }}
     </label>
 

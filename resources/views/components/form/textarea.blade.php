@@ -1,4 +1,4 @@
-@props(['label' => null, 'name', 'id' => null, 'value', 'rows' => null, 'col' => null, 'placeholder' => null, 'readonly' => null, 'disabled' => null, 'autosize' => false])
+@props(['label' => null, 'name', 'id' => null, 'value', 'rows' => null, 'col' => null, 'placeholder' => null, 'readonly' => null, 'disabled' => null, 'required' => false, 'autosize' => false])
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @php
     $errorKey = Form::errorKey($name);
@@ -8,7 +8,7 @@
 @endphp
 <div {{ $attributes->only('class')->class([Form::margin($attributes->get('class')), $cols]) }}>
     @if(filled($label))
-        <label @class(['form-label', 'required' => $attributes->has('required')]) for="{{ $id }}">{{ $label }}</label>
+        <label @class(['form-label', 'required' => $required]) for="{{ $id }}">{{ $label }}</label>
     @endif
     <textarea
         @class(['form-control', 'is-invalid' => $isInvalid])
@@ -20,6 +20,7 @@
         @if($placeholder) placeholder="{{ $placeholder }}" @endif
         @if($readonly) readonly @endif
         @if($disabled) disabled @endif
+        @if($required) aria-required="true" @endif
     >{{ $value ?? '' }}</textarea>
     @if($isInvalid)
         <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey)) }}</div>

@@ -1,4 +1,4 @@
-@props(['label' => null, 'name', 'id' => null, 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'precision' => 2, 'min' => 0, 'max' => 999999999, 'signed' => false, 'plain' => null, 'hint' => null])
+@props(['label' => null, 'name', 'id' => null, 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'required' => false, 'precision' => 2, 'min' => 0, 'max' => 999999999, 'signed' => false, 'plain' => null, 'hint' => null])
 @use('Svenbw\LaravelTabler\Helpers\WireModelEntangler')
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @php
@@ -24,7 +24,7 @@
 @endphp
 <div {{ $attributes->only('class')->class([Form::margin($attributes->get('class')), $cols]) }} x-data="{{ $entangler->xData('decimalInput', $config) }}">
     @if(filled($label))
-        <label @class(['form-label', 'required' => $attributes->has('required')]) for="{{ $id }}">{{ $label }}</label>
+        <label @class(['form-label', 'required' => $required]) for="{{ $id }}">{{ $label }}</label>
     @endif
 
     @if($prependText || $appendText)
@@ -42,8 +42,9 @@
         id="{{ $id }}"
         @unless($plain) name="{{ $name }}" @endunless
         @if($placeholder) placeholder="{{ $placeholder }}" @endif
-        @if($readonly || $attributes->has('readonly')) readonly @endif
+        @if($readonly) readonly @endif
         @if($disabled) disabled @endif
+        @if($required) aria-required="true" @endif
         @isset($tabindex) tabindex="{{ $tabindex }}" @endif
         autocomplete="off"
         wire:ignore

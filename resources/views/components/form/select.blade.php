@@ -6,7 +6,7 @@
 @endphp
 <div {{ $attributes->only('class')->class([Form::margin($attributes->get('class')), $cols()]) }}>
     @if(filled($label))
-        <label @class(['form-label', 'required' => $attributes->has('required')]) for="{{ $id }}">{{ $label }}</label>
+        <label @class(['form-label', 'required' => $required]) for="{{ $id }}">{{ $label }}</label>
     @endif
     <div @class(['is-invalid' => $isInvalid]) {{ $alpineOn }}>
         <div wire:ignore x-data="{{ $xData() }}">
@@ -20,6 +20,7 @@
                 @class(['is-invalid' => $isInvalid])
                 @if($attributes->has('readonly')) readonly @endif
                 @if($disabled) disabled @endif
+                @if($required) aria-required="true" @endif
             >
                 @if($optionGroups)
                     @foreach($optionGroups as $group)

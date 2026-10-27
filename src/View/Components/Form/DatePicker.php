@@ -28,6 +28,7 @@ class DatePicker extends Component
         public ?string $col = null,
         public bool $readonly = false,
         public bool $disabled = false,
+        public bool $required = false,
         ?string $format = null,
         public bool $enableTime = false,
         public bool $noCalendar = false,

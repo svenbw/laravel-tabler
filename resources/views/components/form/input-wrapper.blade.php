@@ -1,4 +1,4 @@
-@props(['label', 'name', 'value', 'placeholder' => null, 'col' => null])
+@props(['label', 'name', 'value', 'placeholder' => null, 'col' => null, 'required' => false])
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @php
     $errorKey = Form::errorKey($name);
@@ -8,7 +8,7 @@
     $cols = Form::colClass($col);
 @endphp
 <div @class(['mb-3', $cols])>
-    <label @class(['form-label', 'required' => $attributes->has('required')]) for={{ $name }}>{{ $label }}</label>
+    <label @class(['form-label', 'required' => $required]) for={{ $name }}>{{ $label }}</label>
     @if($prependText || $appendText)
         <div class="input-group input-group-flat">
         @if($prependText)

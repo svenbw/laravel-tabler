@@ -1,4 +1,4 @@
-@props(['name', 'value' => null, 'placeholder' => null])
+@props(['name', 'value' => null, 'placeholder' => null, 'required' => false])
 <div class="input-group input-group-flat" x-data="{ show: true }">
     <input 
         :type="show ? 'password' : 'text'"
@@ -8,6 +8,7 @@
         class="form-control"
         @if($placeholder) placeholder="{{ $placeholder }}" @endif
         @if($value) value="{{ $value }}" @endif
+        @if($required) aria-required="true" @endif
     >
     <span class="input-group-text">
         <a href="#" x-on:click.prevent="show=!show" class="link-secondary" x-bind:title="show ? @js(__('tabler::form.show_password')) : @js(__('tabler::form.hide_password'))">
