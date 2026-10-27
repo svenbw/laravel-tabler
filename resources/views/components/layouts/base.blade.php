@@ -17,20 +17,22 @@
         <div class="page">
             <x-dynamic-component :component="'tabler::partials.navbar.'.app(Tabler::class)->barStyle()" />
             <div class="page-wrapper">
-                @if(!empty($title))
-                    <x-tabler::partials.page-header
-                        :title="$title"
-                        :pretitle="$pretitle"
-                        :breadcrumbs="$breadcrumbs"
-                    />
-                @endif
-                @hasSection('page')
-                    <div class="page-body">
-                        <div class="container-xl">
-                            @yield('page')
+                <main>
+                    @if(!empty($title))
+                        <x-tabler::partials.page-header
+                            :title="$title"
+                            :pretitle="$pretitle"
+                            :breadcrumbs="$breadcrumbs"
+                        />
+                    @endif
+                    @hasSection('page')
+                        <div class="page-body">
+                            <div class="container-xl">
+                                @yield('page')
+                            </div>
                         </div>
-                    </div>
-                @endif
+                    @endif
+                </main>
                 <x-tabler::error />
                 <x-tabler::toast />
                 <x-tabler::partials.footer.bottom />

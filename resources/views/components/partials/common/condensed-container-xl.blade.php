@@ -4,9 +4,9 @@
             aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+    <div class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
         <x-tabler::partials.common.logo />
-    </h1>
+    </div>
     <div class="navbar-nav flex-row order-md-last">
         <div class="d-none d-md-flex">
             <x-tabler::partials.header.theme-switch />

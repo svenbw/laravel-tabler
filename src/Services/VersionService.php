@@ -5,7 +5,6 @@ namespace Svenbw\LaravelTabler\Services;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Arr;
-use Svenbw\LaravelTabler\Helpers\BladeDirectives;
 
 /**
  * Exposes the host application's build version to the Tabler views.
