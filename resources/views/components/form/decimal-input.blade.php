@@ -10,7 +10,7 @@
     $id ??= $name;
     $entangler = WireModelEntangler::make($attributes);
     $plain = (bool) ($plain ?? config('tabler.decimal_plain', false));
-
+    $describedBy = Form::describedBy($id, true, (bool) $hint);
     $formatter = new \NumberFormatter(App::getLocale(), \NumberFormatter::DECIMAL);
     $config = [
         'precision' => (int) $precision,
@@ -44,7 +44,10 @@
         @if($placeholder) placeholder="{{ $placeholder }}" @endif
         @if($readonly) readonly @endif
         @if($disabled) disabled @endif
+        {{ $attributes->whereStartsWith('aria-')->except(['aria-describedby', 'aria-required', 'aria-invalid']) }}
         @if($required) aria-required="true" @endif
+        @if($describedBy) aria-describedby="{{ $describedBy }}" @endif
+        @if($isInvalid) aria-invalid="true" @endif
         @isset($tabindex) tabindex="{{ $tabindex }}" @endif
         autocomplete="off"
         wire:ignore
@@ -60,10 +63,5 @@
         </div>
     @endif
 
-    @if($isInvalid)
-        <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey)) }}</div>
-    @endif
-    @if($hint)
-        <small class="form-hint">{{ $hint }}</small>
-    @endif
+    @include('tabler::components.partials.form-feedback', ['id' => $id, 'errorKey' => $errorKey])
 </div>

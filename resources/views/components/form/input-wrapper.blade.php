@@ -8,7 +8,7 @@
     $cols = Form::colClass($col);
 @endphp
 <div @class(['mb-3', $cols])>
-    <label @class(['form-label', 'required' => $required]) for={{ $name }}>{{ $label }}</label>
+    <label @class(['form-label', 'required' => $required]) for="{{ $name }}">{{ $label }}</label>
     @if($prependText || $appendText)
         <div class="input-group input-group-flat">
         @if($prependText)
@@ -26,7 +26,5 @@
         @endif
         </div>
     @endif
-    @if($isInvalid)
-        <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey)) }}</div>
-    @endif
+    @include('tabler::components.partials.form-feedback', ['id' => $name, 'errorKey' => $errorKey])
 </div>

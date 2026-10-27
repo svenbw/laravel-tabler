@@ -11,16 +11,16 @@
         @if($required) aria-required="true" @endif
     >
     <span class="input-group-text">
-        <a href="#" x-on:click.prevent="show=!show" class="link-secondary" x-bind:title="show ? @js(__('tabler::form.show_password')) : @js(__('tabler::form.hide_password'))">
+        <a href="#" x-on:click.prevent="show=!show" class="link-secondary" role="button" x-bind:title="show ? @js(__('tabler::form.show_password')) : @js(__('tabler::form.hide_password'))" x-bind:aria-label="show ? @js(__('tabler::form.show_password')) : @js(__('tabler::form.hide_password'))">
             <template x-if="show">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                     <circle cx="12" cy="12" r="2"></circle>
                     <path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"></path>
                 </svg>
             </template>
             <template x-if="!show">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                     <line x1="3" y1="3" x2="21" y2="21"></line>
                     <path d="M10.584 10.587a2 2 0 0 0 2.828 2.83"></path>

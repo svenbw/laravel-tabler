@@ -29,6 +29,26 @@ class Form
         return $id;
     }
 
+    public static function hintId(string $id): string
+    {
+        return self::id($id).'-hint';
+    }
+
+    public static function errorId(string $id): string
+    {
+        return self::id($id).'-error';
+    }
+
+    public static function describedBy(string $id, bool $error, bool $hint): ?string
+    {
+        $ids = array_filter([
+            $error ? self::errorId($id) : null,
+            $hint ? self::hintId($id) : null,
+        ]);
+
+        return $ids ? implode(' ', $ids) : null;
+    }
+
     public static function errorKey(string $name): string
     {
         $name = preg_replace('/\[\]$/', '', $name);

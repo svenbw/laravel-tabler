@@ -3,6 +3,7 @@
     $isInvalid = isset($errors) && $errors->has($errorKey());
     $alpineOn = $attributes->whereStartsWith(['x-on:', '@']);
     $attributes = $attributes->except(array_keys($alpineOn->all()));
+    $describedBy = Form::describedBy($id, true, (bool) $hint);
 @endphp
 <div {{ $attributes->only('class')->class([Form::margin($attributes->get('class')), $cols()]) }}>
     @if(filled($label))
@@ -19,7 +20,10 @@
                 id="{{ $id }}"
                 @class(['is-invalid' => $isInvalid])
                 @if($disabled) disabled @endif
+                {{ $attributes->whereStartsWith('aria-')->except(['aria-describedby', 'aria-required', 'aria-invalid']) }}
                 @if($required) aria-required="true" @endif
+                @if($describedBy) aria-describedby="{{ $describedBy }}" @endif
+                @if($isInvalid) aria-invalid="true" @endif
             >
                 @if($optionGroups)
                     @foreach($optionGroups as $group)
@@ -49,10 +53,5 @@
             </select>
         </div>
     </div>
-    @if($isInvalid)
-        <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey())) }}</div>
-    @endif
-    @if($hint)
-        <small class="form-hint">{{ $hint }}</small>
-    @endif
+    @include('tabler::components.partials.form-feedback', ['id' => $id, 'errorKey' => $errorKey()])
 </div>

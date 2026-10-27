@@ -5,6 +5,7 @@
     $isInvalid = isset($errors) && $errors->has($errorKey);
     $cols = Form::colClass($col);
     $id ??= $name;
+    $describedBy = Form::describedBy($id, $isInvalid, (bool) $hint);
 @endphp
 <div {{ $attributes->only('class')->class([Form::margin($attributes->get('class')), $cols]) }}>
     @if(filled($label))
@@ -14,18 +15,15 @@
         @class(['form-control', 'is-invalid' => $isInvalid])
         name="{{ $name }}"
         id="{{ $id }}"
-        {{ $attributes->whereStartsWith(['wire:', 'x-', '@']) }}
+        {{ $attributes->whereStartsWith(['wire:', 'x-', '@', 'aria-'])->except(['aria-describedby', 'aria-required', 'aria-invalid']) }}
         @isset($rows) rows="{{ $rows }}" @endisset
         @if($autosize) @unless($attributes->has('x-data')) x-data @endunless x-autosize @endif
         @if($placeholder) placeholder="{{ $placeholder }}" @endif
         @if($readonly) readonly @endif
         @if($disabled) disabled @endif
         @if($required) aria-required="true" @endif
+        @if($describedBy) aria-describedby="{{ $describedBy }}" @endif
+        @if($isInvalid) aria-invalid="true" @endif
     >{{ $value ?? '' }}</textarea>
-    @if($isInvalid)
-        <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey)) }}</div>
-    @endif
-    @if($hint)
-        <small class="form-hint">{{ $hint }}</small>
-    @endif
+    @include('tabler::components.partials.form-feedback', ['id' => $id, 'errorKey' => $errorKey])
 </div>

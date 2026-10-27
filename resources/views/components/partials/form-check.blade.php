@@ -17,6 +17,7 @@
     }
 
     $margin = Form::margin($attributes->get('class'), $defaultMargin);
+    $describedBy = $id !== null ? Form::describedBy($id, $isInvalid && ! $inline, false) : null;
 @endphp
 <div {{ $attributes->only('class')->class([$margin, Form::colClass($col)]) }}>
     <label @class(['form-check', 'form-switch' => $switch, 'form-check-inline' => $inline]) @if($id) for="{{ $id }}" @endif>
@@ -30,6 +31,8 @@
             @checked($checked)
             @disabled($disabled)
             @if($readonly) readonly @endif
+            @if($describedBy) aria-describedby="{{ $describedBy }}" @endif
+            @if($isInvalid) aria-invalid="true" @endif
         />
         <span class="form-check-label">{{ $label }}</span>
         @if($hint)
@@ -37,6 +40,6 @@
         @endif
     </label>
     @if($isInvalid && ! $inline)
-        <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey)) }}</div>
+        <div class="invalid-feedback d-block" @if($id) id="{{ Form::errorId($id) }}" @endif>{{ join(', ', $errors->get($errorKey)) }}</div>
     @endif
 </div>

@@ -98,7 +98,7 @@ if (! function_exists('selectOptions')) {
     {
         $options = [];
         foreach ($items as $key => $item) {
-            if ($item instanceof \BackedEnum) {
+            if ($item instanceof BackedEnum) {
                 $options[(string) $item->value] = method_exists($item, 'label') ? $item->label() : $item->name;
             } else {
                 $options[(string) $item->value] = $item;

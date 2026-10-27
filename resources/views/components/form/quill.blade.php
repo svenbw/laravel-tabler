@@ -30,6 +30,8 @@
         'autofocus' => $attributes->has('autofocus'),
         'toolbar' => $resolvedToolbar,
         'model' => $entangler->modelName(),
+        'describedBy' => Form::describedBy($editorId, true, (bool) $hint),
+        'invalid' => $isInvalid,
     ];
 @endphp
 
@@ -60,10 +62,5 @@
         {{ $attributes->whereStartsWith('data-') }}
     >
 
-    @if($isInvalid)
-        <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey)) }}</div>
-    @endif
-    @if($hint)
-        <small class="form-hint">{{ $hint }}</small>
-    @endif
+    @include('tabler::components.partials.form-feedback', ['id' => $editorId, 'errorKey' => $errorKey])
 </div>

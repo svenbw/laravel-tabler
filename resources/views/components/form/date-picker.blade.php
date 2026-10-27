@@ -4,6 +4,7 @@
     $prependText = $attributes->get('prepend-text');
     $appendText = $attributes->get('append-text');
     $showIcon = $icon && ! $prependText && ! $appendText;
+    $describedBy = Form::describedBy($id, true, (bool) $hint);
 @endphp
 
 <div {{ $attributes->only('class')->class([Form::margin($attributes->get('class')), $cols()]) }}>
@@ -25,10 +26,10 @@
             <span class="input-icon-addon">
                 @if($noCalendar)
                 <!-- https://tabler.io/icons/icon/clock -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg>
                 @else
                 <!-- https://tabler.io/icons/icon/calendar -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg>
                 @endif
             </span>
         @endif
@@ -42,7 +43,10 @@
             @if($placeholder) placeholder="{{ $placeholder }}" @endif
             @if($readonly) readonly @endif
             @if($disabled) disabled @endif
+            {{ $attributes->whereStartsWith('aria-')->except(['aria-describedby', 'aria-required', 'aria-invalid']) }}
             @if($required) aria-required="true" @endif
+            @if($describedBy) aria-describedby="{{ $describedBy }}" @endif
+            @if($isInvalid) aria-invalid="true" @endif
             @isset($tabindex) tabindex="{{ $tabindex }}" @endif
             @isset($value) value="{{ $value }}" @endisset
             autocomplete="off"
@@ -62,10 +66,5 @@
         @endif
     </div>
     
-    @if($isInvalid)
-        <div class="invalid-feedback d-block">{{ join(', ', $errors->get($errorKey())) }}</div>
-    @endif
-    @if($hint)
-        <small class="form-hint">{{ $hint }}</small>
-    @endif
+    @include('tabler::components.partials.form-feedback', ['id' => $id, 'errorKey' => $errorKey()])
 </div>

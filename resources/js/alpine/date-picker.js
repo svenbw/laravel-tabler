@@ -24,6 +24,11 @@ function DatePicker(Alpine) {
                 this.picker.altInput.id = this.$refs.input.id;
                 this.$refs.input.removeAttribute('id');
             }
+            if (this.picker.altInput) {
+                ['aria-describedby', 'aria-invalid']
+                    .filter((name) => this.$refs.input.hasAttribute(name))
+                    .forEach((name) => this.picker.altInput.setAttribute(name, this.$refs.input.getAttribute(name)));
+            }
 
             this.$watch('value', (value) => {
                 if ((value ?? '') !== this.picker.input.value) {

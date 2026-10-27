@@ -5,6 +5,7 @@ namespace Svenbw\LaravelTabler\Services;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Arr;
+use Svenbw\LaravelTabler\Helpers\BladeDirectives;
 
 /**
  * Exposes the host application's build version to the Tabler views.
@@ -32,8 +33,8 @@ use Illuminate\Support\Arr;
  *  - `raw()` returns `'n/a'`
  *  - `year()` returns the current year, so the copyright line stays sensible
  *
- * @see \Svenbw\LaravelTabler\Helpers\BladeDirectives::appVersion() for the @appVersion directive
- * @see \Svenbw\LaravelTabler\Helpers\BladeDirectives::appYear() for the @appYear directive
+ * @see BladeDirectives::appVersion() for the @appVersion directive
+ * @see BladeDirectives::appYear() for the @appYear directive
  */
 class VersionService
 {
