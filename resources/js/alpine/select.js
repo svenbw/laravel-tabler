@@ -83,7 +83,7 @@ function Select(Alpine) {
             if (config.readonly) {
                 select.lock();
             }
-            ['aria-describedby', 'aria-invalid', 'aria-label', 'aria-labelledby']
+            ['aria-describedby', 'aria-invalid', 'aria-label', 'aria-labelledby', 'aria-required']
                 .filter((name) => this.$refs.select.hasAttribute(name))
                 .forEach((name) => select.focus_node.setAttribute(name, this.$refs.select.getAttribute(name)));
 

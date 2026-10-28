@@ -8,9 +8,9 @@ if ($color === null) {
     <div class="small">{{ $title }}</div>
     <div class="d-flex align-items-center gap-2">
         <div class="progress flex-grow-1" style="height:{{ $height }};">
-            <div class="progress-bar {{ $color }}" style="width: {{ $progress }}%"></div>
+            <div class="progress-bar {{ $color }}" style="width: {{ $progress }}%" role="progressbar" aria-valuenow="{{ (int) $progress }}" aria-valuemin="0" aria-valuemax="100" aria-label="{{ $title }}"></div>
         </div>
-        <span class="badge">
+        <span class="badge" aria-hidden="true">
             {{ $progress }}%
         </span>
     </div>

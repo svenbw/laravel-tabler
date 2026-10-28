@@ -1,14 +1,22 @@
-@props(['name', 'value' => null, 'placeholder' => null, 'required' => false])
+@props(['name', 'id' => null, 'value' => null, 'placeholder' => null, 'required' => false])
+@use('Svenbw\LaravelTabler\Helpers\Form')
+@php
+    $isInvalid = isset($errors) && $errors->has(Form::errorKey($name));
+    $id ??= $name;
+    $describedBy = Form::describedBy($id, $isInvalid, false);
+@endphp
 <div class="input-group input-group-flat" x-data="{ show: true }">
     <input 
         :type="show ? 'password' : 'text'"
         name="{{ $name }}"
-        id="{{ $name }}"
+        id="{{ $id }}"
         autocomplete="current-password"
-        class="form-control"
+        @class(['form-control', 'is-invalid' => $isInvalid])
         @if($placeholder) placeholder="{{ $placeholder }}" @endif
         @if($value) value="{{ $value }}" @endif
         @if($required) aria-required="true" @endif
+        @if($describedBy) aria-describedby="{{ $describedBy }}" @endif
+        @if($isInvalid) aria-invalid="true" @endif
     >
     <span class="input-group-text">
         <a href="#" x-on:click.prevent="show=!show" class="link-secondary" role="button" x-bind:title="show ? @js(__('tabler::form.show_password')) : @js(__('tabler::form.hide_password'))" x-bind:aria-label="show ? @js(__('tabler::form.show_password')) : @js(__('tabler::form.hide_password'))">

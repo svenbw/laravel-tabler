@@ -17,7 +17,7 @@
     }
 
     $margin = Form::margin($attributes->get('class'), $defaultMargin);
-    $describedBy = $id !== null ? Form::describedBy($id, $isInvalid && ! $inline, false) : null;
+    $describedBy = $id !== null ? Form::describedBy($id, $isInvalid && ! $inline, (bool) $hint) : null;
 @endphp
 <div {{ $attributes->only('class')->class([$margin, Form::colClass($col)]) }}>
     <label @class(['form-check', 'form-switch' => $switch, 'form-check-inline' => $inline]) @if($id) for="{{ $id }}" @endif>
@@ -36,7 +36,7 @@
         />
         <span class="form-check-label">{{ $label }}</span>
         @if($hint)
-            <span class="form-check-description">{{ $hint }}</span>
+            <span class="form-check-description" @if($id) id="{{ Form::hintId($id) }}" @endif>{{ $hint }}</span>
         @endif
     </label>
     @if($isInvalid && ! $inline)

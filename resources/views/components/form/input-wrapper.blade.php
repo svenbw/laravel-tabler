@@ -1,4 +1,4 @@
-@props(['label', 'name', 'value', 'placeholder' => null, 'col' => null, 'required' => false])
+@props(['label', 'name', 'id' => null, 'value', 'placeholder' => null, 'col' => null, 'required' => false])
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @php
     $errorKey = Form::errorKey($name);
@@ -6,9 +6,10 @@
     $prependText = $attributes->get('prepend-text');
     $appendText = $attributes->get('append-text');
     $cols = Form::colClass($col);
+    $id ??= $name;
 @endphp
 <div @class(['mb-3', $cols])>
-    <label @class(['form-label', 'required' => $required]) for="{{ $name }}">{{ $label }}</label>
+    <label @class(['form-label', 'required' => $required]) for="{{ $id }}">{{ $label }}</label>
     @if($prependText || $appendText)
         <div class="input-group input-group-flat">
         @if($prependText)
@@ -26,5 +27,5 @@
         @endif
         </div>
     @endif
-    @include('tabler::components.partials.form-feedback', ['id' => $name, 'errorKey' => $errorKey])
+    @include('tabler::components.partials.form-feedback', ['id' => $id, 'errorKey' => $errorKey])
 </div>

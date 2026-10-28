@@ -25,6 +25,12 @@ function QuillEditor(Alpine, { uploadUrl = null } = {}) {
                 },
             });
             container.__quill = quill;
+            if (config.labelledBy) {
+                quill.root.setAttribute('aria-labelledby', config.labelledBy);
+            }
+            if (config.required) {
+                quill.root.setAttribute('aria-required', 'true');
+            }
             if (config.describedBy) {
                 quill.root.setAttribute('aria-describedby', config.describedBy);
             }

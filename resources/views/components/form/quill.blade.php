@@ -7,6 +7,7 @@
     $cols      = Form::colClass($col);
     $editorId  = 'quill_' . str_replace(['.', '[', ']'], '_', $name);
     $inputId   = $editorId . '_input';
+    $labelId   = $editorId . '_label';
 
     if ($disabled || $readonly) {
         $resolvedToolbar = false;
@@ -32,6 +33,8 @@
         'model' => $entangler->modelName(),
         'describedBy' => Form::describedBy($editorId, true, (bool) $hint),
         'invalid' => $isInvalid,
+        'labelledBy' => $labelId,
+        'required' => (bool) $required,
     ];
 @endphp
 
@@ -39,7 +42,7 @@
     @class(['mb-3', $cols])
     x-data="{{ $entangler->xData('quillEditor', $config) }}"
 >
-    <label @class(['form-label', 'required' => $required]) for="{{ $inputId }}">
+    <label @class(['form-label', 'required' => $required]) id="{{ $labelId }}" x-on:click="quill?.focus()">
         {{ $label }}
     </label>
 
