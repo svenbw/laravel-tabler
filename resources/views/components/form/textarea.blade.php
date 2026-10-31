@@ -5,7 +5,7 @@
     $isInvalid = isset($errors) && $errors->has($errorKey);
     $cols = Form::colClass($col);
     $id ??= $name;
-    $describedBy = Form::describedBy($id, $isInvalid, (bool) $hint);
+    $describedBy = Form::describedBy($id, $isInvalid, (bool) $hint, $attributes->get('aria-describedby'));
 @endphp
 <div {{ $attributes->only('class')->class([Form::margin($attributes->get('class')), $cols]) }}>
     @if(filled($label))

@@ -10,7 +10,7 @@
     $id ??= $name;
     $entangler = WireModelEntangler::make($attributes);
     $plain = (bool) ($plain ?? config('tabler.decimal_plain', false));
-    $describedBy = Form::describedBy($id, true, (bool) $hint);
+    $describedBy = Form::describedBy($id, true, (bool) $hint, $attributes->get('aria-describedby'));
     $formatter = new \NumberFormatter(App::getLocale(), \NumberFormatter::DECIMAL);
     $config = [
         'precision' => (int) $precision,

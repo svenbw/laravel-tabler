@@ -3,7 +3,7 @@
     $isInvalid = isset($errors) && $errors->has($errorKey());
     $alpineOn = $attributes->whereStartsWith(['x-on:', '@']);
     $attributes = $attributes->except(array_keys($alpineOn->all()));
-    $describedBy = Form::describedBy($id, true, (bool) $hint);
+    $describedBy = Form::describedBy($id, true, (bool) $hint, $attributes->get('aria-describedby'));
 @endphp
 <div {{ $attributes->only('class')->class([Form::margin($attributes->get('class')), $cols()]) }}>
     @if(filled($label))

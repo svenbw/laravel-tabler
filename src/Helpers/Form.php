@@ -39,11 +39,12 @@ class Form
         return self::id($id).'-error';
     }
 
-    public static function describedBy(string $id, bool $error, bool $hint): ?string
+    public static function describedBy(string $id, bool $error, bool $hint, ?string $extra = null): ?string
     {
         $ids = array_filter([
             $error ? self::errorId($id) : null,
             $hint ? self::hintId($id) : null,
+            filled($extra) ? $extra : null,
         ]);
 
         return $ids ? implode(' ', $ids) : null;

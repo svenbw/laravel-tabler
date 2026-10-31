@@ -4,7 +4,7 @@
     $prependText = $attributes->get('prepend-text');
     $appendText = $attributes->get('append-text');
     $showIcon = $icon && ! $prependText && ! $appendText;
-    $describedBy = Form::describedBy($id, true, (bool) $hint);
+    $describedBy = Form::describedBy($id, true, (bool) $hint, $attributes->get('aria-describedby'));
 @endphp
 
 <div {{ $attributes->only('class')->class([Form::margin($attributes->get('class')), $cols()]) }}>
