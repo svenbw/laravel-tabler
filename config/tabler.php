@@ -165,4 +165,18 @@ return [
         'resources/js/app.js',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Theme
+    |--------------------------------------------------------------------------
+    | The cookie the light or dark theme a member picked is kept in, and for
+    | how many days. It is only written when a member picks a theme; without
+    | one the theme follows the system.
+    |
+    */
+
+    'theme_cookie' => [
+        'name' => env('THEME_COOKIE', 'theme'),
+        'days' => (int) env('THEME_COOKIE_DAYS', 365),
+    ],
 ];

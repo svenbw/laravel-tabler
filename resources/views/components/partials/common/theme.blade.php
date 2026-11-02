@@ -6,10 +6,6 @@
     light theme first. The choice a member made wins; without one the theme
     follows the system.
 
-    The theme is written to a cookie as well, so the server knows which one the
-    next request is rendered in; the system fallback is written too, otherwise
-    the first request of a member who never touched the switches carries nothing.
-
     Until the stylesheet has arrived the browser paints its own canvas, white,
     and moving to another page flashes it. The dark canvas is given here, in
     the colour of Tabler's dark body, so there is nothing to see in between.
@@ -22,19 +18,23 @@
 </style>
 <script>
     (function () {
+        var name = @js(config('tabler.theme_cookie.name', 'theme'));
+        var days = @js((int) config('tabler.theme_cookie.days', 365));
+        var root = document.documentElement;
+
+        root.dataset.themeCookie = name;
+        root.dataset.themeCookieDays = days;
+
         var stored = null;
 
-        try {
-            stored = window.localStorage.getItem('tabler-theme');
-        } catch (error) {
-            // A browser that refuses storage still gets a theme.
-        }
+        document.cookie.split('; ').forEach(function (pair) {
+            var index = pair.indexOf('=');
 
-        var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            if (pair.slice(0, index) === name && /^(light|dark)$/.test(pair.slice(index + 1))) {
+                stored = pair.slice(index + 1);
+            }
+        });
 
-        document.documentElement.setAttribute('data-bs-theme', theme);
-
-        document.cookie = 'theme=' + theme + '; path=/; max-age=31536000; SameSite=Lax'
-            + (window.location.protocol === 'https:' ? '; Secure' : '');
+        root.setAttribute('data-bs-theme', stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
     })();
 </script>

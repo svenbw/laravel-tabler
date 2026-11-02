@@ -1,32 +1,19 @@
-const STORAGE_KEY = 'tabler-theme';
-const COOKIE_NAME = 'theme';
-const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
+export const COOKIE_NAME = document.documentElement.dataset.themeCookie || 'theme';
+export const COOKIE_DAYS = Number(document.documentElement.dataset.themeCookieDays) || 365;
 
 const systemTheme = () => (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 
 const storedTheme = () => {
-    try {
-        return window.localStorage.getItem(STORAGE_KEY);
-    } catch (error) {
-        return null;
-    }
+    const match = document.cookie.match(new RegExp('(?:^|; )' + COOKIE_NAME.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '=(light|dark)(?:;|$)'));
+
+    return match ? match[1] : null;
 };
 
 const applyTheme = (theme) => document.documentElement.setAttribute('data-bs-theme', theme);
 
-const rememberInCookie = (theme) => {
-    document.cookie = `${COOKIE_NAME}=${theme}; path=/; max-age=${COOKIE_MAX_AGE}; SameSite=Lax`
-        + (window.location.protocol === 'https:' ? '; Secure' : '');
-};
-
 export const setTheme = (theme) => {
-    try {
-        window.localStorage.setItem(STORAGE_KEY, theme);
-    } catch (error) {
-        // Remembering is a convenience, switching is not.
-    }
-
-    rememberInCookie(theme);
+    document.cookie = `${COOKIE_NAME}=${theme}; path=/; max-age=${COOKIE_DAYS * 86400}; SameSite=Lax`
+        + (window.location.protocol === 'https:' ? '; Secure' : '');
 
     applyTheme(theme);
 };
@@ -45,10 +32,7 @@ export default function initTheme() {
 
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
         if (storedTheme() === null) {
-            const theme = event.matches ? 'dark' : 'light';
-
-            rememberInCookie(theme);
-            applyTheme(theme);
+            applyTheme(event.matches ? 'dark' : 'light');
         }
     });
 }
