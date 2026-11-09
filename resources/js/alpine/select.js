@@ -105,7 +105,7 @@ function Select(Alpine) {
             }
 
             select.on('change', (value) => {
-                this.value = value;
+                this.value = Array.isArray(value) ? [...value] : value;
             });
 
             show();
