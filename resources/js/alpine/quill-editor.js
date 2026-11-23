@@ -22,6 +22,7 @@ function QuillEditor(Alpine, { uploadUrl = null } = {}) {
                 readOnly: config.readOnly,
                 modules: {
                     toolbar: config.toolbar,
+                    ...(config.fields?.length ? { fields: { fields: config.fields } } : {}),
                 },
             });
             container.__quill = quill;
@@ -38,7 +39,8 @@ function QuillEditor(Alpine, { uploadUrl = null } = {}) {
                 quill.root.setAttribute('aria-invalid', 'true');
             }
 
-            const show = (html) => quill.setContents(quill.clipboard.convert({ html: html ?? '' }), 'silent');
+            const fields = quill.getModule('fields');
+            const show = (html) => quill.setContents(quill.clipboard.convert({ html: fields ? fields.expand(html ?? '') : (html ?? '') }), 'silent');
 
             const toHtml = () => {
                 if (quill.getContents().ops.every((op) => typeof op.insert === 'string' && op.insert.trim() === '')) {

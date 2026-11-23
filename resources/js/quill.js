@@ -27,6 +27,7 @@ import IconPicker from 'quill/ui/icon-picker';
 import Tooltip from 'quill/ui/tooltip';
 
 import BlotFormatter from '@enzedonline/quill-blot-formatter2';
+import Fields, { FieldBlot } from './quill/fields.js';
 
 Quill.register({
   'attributors/class/align': AlignClass,
@@ -58,6 +59,8 @@ Quill.register({
 
   'modules/toolbar': Toolbar,
   'modules/blotFormatter2': BlotFormatter,
+  'modules/fields': Fields,
+  'formats/field': FieldBlot,
 
   'themes/snow': Snow,
   'themes/bubble': Bubble,

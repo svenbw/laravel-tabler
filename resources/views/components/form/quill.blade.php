@@ -1,4 +1,4 @@
-@props(['label', 'name', 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'required' => false, 'height' => 200, 'theme' => 'snow', 'toolbar' => null, 'hint' => null])
+@props(['label', 'name', 'value' => null, 'placeholder' => null, 'tabindex' => null, 'col' => null, 'readonly' => null, 'disabled' => null, 'required' => false, 'height' => 200, 'theme' => 'snow', 'toolbar' => null, 'hint' => null, 'fields' => []])
 @use('Svenbw\LaravelTabler\Helpers\WireModelEntangler')
 @use('Svenbw\LaravelTabler\Helpers\Form')
 @php
@@ -35,6 +35,12 @@
         'invalid' => $isInvalid,
         'labelledBy' => $labelId,
         'required' => (bool) $required,
+        'fields' => collect($fields)
+            ->map(fn ($description, $field) => is_int($field)
+                ? ['field' => $description, 'description' => '']
+                : ['field' => $field, 'description' => (string) $description])
+            ->values()
+            ->all(),
     ];
 @endphp
 

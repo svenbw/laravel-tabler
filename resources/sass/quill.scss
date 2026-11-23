@@ -122,3 +122,72 @@
         color: theme(primary);
     }
 }
+
+.ql-editor .ql-field {
+    background-color: theme(primary-lt, #e9f0f9);
+    border-radius: theme(border-radius, 4px);
+    color: theme(primary);
+    font-family: theme(font-monospace, monospace);
+    font-size: .875em;
+    padding: 1px 0;
+    white-space: nowrap;
+
+    > span {
+        margin: 0 4px;
+    }
+}
+
+.ql-field-list {
+    position: absolute;
+    z-index: 1060;
+    min-width: 16rem;
+    max-width: 28rem;
+    max-height: 16rem;
+    overflow-y: auto;
+    margin: 0;
+    padding: .25rem 0;
+    list-style: none;
+    background-color: theme(bg-surface, #fff);
+    border: 1px solid theme(border-color, #dee2e6);
+    border-radius: theme(border-radius, 4px);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+    color: theme(body-color);
+    font-size: .875rem;
+    line-height: 1.4;
+
+    &[hidden] {
+        display: none;
+    }
+}
+
+.ql-field-item {
+    display: flex;
+    flex-direction: column;
+    padding: .25rem .75rem;
+    cursor: pointer;
+
+    &.active,
+    &:hover {
+        background-color: theme(active-bg, rgba(0, 0, 0, .05));
+    }
+}
+
+.ql-field-code {
+    color: theme(primary);
+    font-family: theme(font-monospace, monospace);
+}
+
+.ql-field-description {
+    color: theme(secondary);
+    font-size: .8125rem;
+}
+
+.ql-toolbar .ql-formats:has(> .ql-field-picker) {
+    position: relative;
+}
+
+.ql-field-menu {
+    top: 100%;
+    left: 0;
+    margin-top: 2px;
+}
