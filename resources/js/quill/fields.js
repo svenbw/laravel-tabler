@@ -102,8 +102,11 @@ export default class Fields {
     const quill = this.quill;
     quill.deleteText(index, length, Quill.sources.USER);
     quill.insertEmbed(index, 'field', { field }, Quill.sources.USER);
-    quill.insertText(index + 1, ' ', Quill.sources.USER);
-    quill.setSelection(index + 2, 0, Quill.sources.USER);
+    const next = quill.getText(index + 1, 1);
+    if (/[\p{L}\p{N}]/u.test(next)) {
+      quill.insertText(index + 1, ' ', Quill.sources.USER);
+    }
+    quill.setSelection(index + 1, 0, Quill.sources.USER);
   }
 
   buildList() {
